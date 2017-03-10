@@ -3,8 +3,8 @@
 exports.up = function(knex) {
   return knex.schema.createTable('permissions', (table) => {
     table.increments()
-    table.string('is_read').notNullable().defaultTo('')
-    table.string('is_write').notNullable().defaultTo('')
+    table.boolean('is_read').notNullable().defaultTo(false)
+    table.boolean('is_write').notNullable().defaultTo(false)
     table.integer('user_id')
       .references('users.id')
       .notNullable()

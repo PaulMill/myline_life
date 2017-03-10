@@ -7,6 +7,7 @@ exports.up = function(knex) {
     table.string('album_date').notNullable().defaultTo('')
     table.boolean('is_moments').notNullable().defaultTo(false)
     table.boolean('is_album').notNullable().defaultTo(true)
+    table.boolean('is_public').notNullable().defaultTo(false)
     table.text('description').notNullable().defaultTo('')
     table.integer('index_photo')
       .references('photos.id')
