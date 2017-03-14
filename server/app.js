@@ -19,8 +19,8 @@ app.use(cookieParser());
 
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
-app.use('/api', require('./routes/api'))
-// app.use('/api/projects', require('./routes/api_projects'))
+// app.use('/api', require('./routes/'))
+app.use('/api/upload', require('./routes/upload'))
 // app.use('/api/status', require('./routes/api_status'))
 // app.use('/api/admin', require('./routes/admin'))
 // app.use('/api/users', require('./routes/users'))
