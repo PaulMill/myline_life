@@ -16,6 +16,7 @@ exports.up = function(knex) {
     table.string('zipcode').notNullable().default('')
     table.string('reg_url').notNullable().default('')
     table.boolean('is_registred').notNullable().default(false)
+    table.string('birthday').notNullable().defaultTo('')
     table.timestamps(true, true)
   })
 }

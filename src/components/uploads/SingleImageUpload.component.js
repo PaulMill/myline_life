@@ -15,6 +15,7 @@ export default class SingleImageUpload extends Component {
     this.formatDate = this.formatDate.bind(this)
   }
   getDate(ele){
+    console.log(ele);
     let camera;
     let dateOfPhoto;
     EXIF.getData(ele, function() {
@@ -44,19 +45,15 @@ export default class SingleImageUpload extends Component {
                     }
                   }>
                     <Thumbnail style={{border: 'none'}}>
-                      <img ref={this.getDate} src={this.props.image} style={{width: '190px', height: '140px'}} alt="ProjectImage"/>
+                      <img ref={this.getDate} src={this.props.image} style={{width: '190px', height: '140px'}} alt="photo"/>
                       {/* <Link to='details'> */}
 
                       <span>name of photo:</span>
-                      <input name="name" value={`Photo ${this.state.name}`} placeholder="Enter name of photo"/>
+                      <input name="name" value={`Photo ${this.state.name}`} />
                       <hr />
                       <h6>Created by: Paul</h6>
                       <p><span>Photo was created: </span><strong>{this.formatDate()}</strong></p>
                       <h6>Camera: <strong>{this.state.camera}</strong></h6>
-                      <p>
-                        {/* <Button bsStyle="primary" onClick={() => this.handleDetailsButton(el)}>Details</Button>&nbsp; */}
-                        {/* <Button bsStyle="default">Comments</Button> */}
-                      </p>
                     </Thumbnail>
                   </Col>
               </Row>

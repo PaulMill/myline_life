@@ -11,6 +11,7 @@ exports.up = function(knex) {
     table.integer('likes').notNullable().defaultTo(0)
     table.string('photo_date').notNullable().defaultTo('')
     table.boolean('is_public').notNullable().defaultTo(false)
+    table.string('camera_model').notNullable().defaultTo('')
     table.integer('user_id')
       .references('users.id')
       .notNullable()
