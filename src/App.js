@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import UploadPhotos from './components/uploads/UploadPhotos.component'
 
 class App extends Component {
   constructor(props) {

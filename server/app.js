@@ -1,7 +1,7 @@
 'use strict'
 
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
+  require('dotenv').config();
 }
 
 const express = require('express')
@@ -22,9 +22,9 @@ app.use(express.static(path.resolve(__dirname, '..', 'build')));
 app.use('/api/upload', require('./routes/upload'))
 
 app.use(bodyParser.json());
+app.use('/api/users', require('./routes/users'))
 // app.use('/api/status', require('./routes/api_status'))
 // app.use('/api/admin', require('./routes/admin'))
-// app.use('/api/users', require('./routes/users'))
 // app.use('/api/tokens', require('./routes/tokens'))
 
 app.get('*', (req, res) => {

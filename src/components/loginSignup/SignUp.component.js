@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { browserHistory } from 'react-router'
 
 export default class SignUp extends Component {
   constructor(props){
@@ -22,8 +23,8 @@ render(){
           <div className="row">
               <div className="col-md-3"></div>
               <div className="col-md-6" style={{textAlign: "center"}}>
-                  <h2>Register New User</h2>
-                  <hr />
+                <h2>Register New User</h2>
+                <hr />
               </div>
           </div>
           <div className="row">
@@ -129,8 +130,9 @@ render(){
           </div>
           <div className="row">
               <div className="col-md-3"></div>
+              <button type="button" className="btn btn-outline-secondary" onClick={() => browserHistory.push('/login')}><i className="fa fa-sign-in"></i> Back to LogIn</button>
               <div className="col-md-6" style={{textAlign: "center"}}>
-                  <button type="submit" className="btn btn-success btn-lg"><i className="fa fa-user-plus"></i> Register</button>
+                  <button type="button" className="btn btn-success btn-lg"><i className="fa fa-user-plus"></i> Register</button>
               </div>
           </div>
       </form>
