@@ -1,24 +1,50 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import UploadPhotos from './components/uploads/UploadPhotos.component'
 
 class App extends Component {
   constructor(props) {
-    super(props)
-  }
+      super(props)
+
+      this.state = {
+        isLoggedIn: true,
+        userId: 0,
+        userName: ''
+      }
+      this.editParentState = this.editParentState.bind(this)
+    }
+
+    editParentState(newState) {
+      this.setState(newState)
+    }
+
+    componentWillMount(){
+      // axios.get('/api/tokens/token')
+      //   .then((res) => {
+      //     if (!res.data) {
+      //       return console.log(res.data);
+      //     }
+      //     this.setState(res.data)
+      //   })
+      //   .catch(err => {
+      //     console.error(err);
+      //   })
+    }
 
   render() {
+    const { isLoggedIn, userId, userName } = this.state
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <UploadPhotos />
+      <div>
+        {isLoggedIn
+          ? <main>
+                { this.props.children
+                  ? React.cloneElement(this.props.children, {isLoggedIn, userId, userName, editParentState: this.editParentState})
+                  : null
+                }
+            </main>
+          : <div>
+            </div>
+        }
       </div>
     );
   }

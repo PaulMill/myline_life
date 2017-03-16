@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import EXIF from 'exif-js'
-import superagent from 'superagent'
+import Request from 'superagent'
 import SingleImageUpload from './SingleImageUpload.component'
 
 export default class UploadPhotos extends Component {
@@ -50,44 +50,19 @@ export default class UploadPhotos extends Component {
   }
   handleSubmit(event){
     event.preventDefault()
-    if(this.state.files.length) {
-      for (const element of this.state.files) {
-        axios.post('/api/upload/geturl', {filename: `${this.state.name}${Date.now()}`})
-        .then((result) => {
-          console.log('result', result);
-          return result.data
-          })
-        .then((url) => {
-          console.log('url', url);
-          const options = {
-            headers: {
-              'Content-Type': 'image/jpeg'
-            }
-          }
-          return axios.put(url, element, options)
-          })
-        .then((result) => {
-          console.log(result)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-      }
-    }
-    else {
-      return alert('Choose photo for uploading')
-    }
-    // superagent
-    //   .post('api/upload/photos')
-    //   .attach('photo', 'this.state.files')
-    //   .end((err, res) => {
-    //     if (err || !res.ok) {
-    //      console.log('Oh no! error');
-    //    } else {
-    //      console.log('yay got ' + res.body);
-    //    }
-    //
-    //   })
+    Request.post('api/upload/photos')
+      // .type('image/jpeg')
+      // .set("Content-Type", "application/octet-stream")
+      // .set('Content-Type', 'multipart/form-data')
+      // .set('Boundary', this.state.files[0])
+      .attach('photo', this.state.files[0])
+      .end((err, res) => {
+        if (err || !res.ok) {
+         console.log('Oh no! error');
+       } else {
+         console.log('yay got ' + res.body);
+       }
+      })
   }
   render() {
     const isLoaded = this.state.imagesIsLoaded

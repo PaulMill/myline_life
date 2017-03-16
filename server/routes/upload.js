@@ -3,38 +3,36 @@
 const boom = require('boom')
 const express = require('express')
 const AWS = require('aws-sdk')
-const uuid = require('node-uuid')
-const multer = require('multer')
-const multerS3 = require('multer-s3')
+const fileUpload = require('express-fileupload')
+const app = express()
 
+app.use(fileUpload())
+
+const router = express.Router()
+// const upload = multer({ dest: 'uploads/' })
 
 //setup bucket name for AWS S3
 const myBucket = 'myline.life'
 
-const s3 = new AWS.S3()
 
-// eslint-disable-next-line new-cap
-const router = express.Router()
 
-router.post('/geturl', (req, res, next) => {
-  console.log('body ', req.body.filename);
-    const params = {
-      Bucket: myBucket,
-      Key: req.body.filename,
-      Expires: 60,
-      ContentType: 'image/jpeg'
-    };
-    s3.getSignedUrl('putObject', params, (err, url) => {
-        if (err) {
-            console.log(err);
-            next(err);
-        } else {
-          res.send(url);
-          console.log(url);
-        }
-    });
-})
+app.post('/photos', function(req, res) {
+  console.log(req.files);
+  if (!req.files)
+    return res.status(400).send('No files were uploaded.');
 
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+  let sampleFile = req.files.upl_files;
+  console.log(sampleFile);
+
+  // Use the mv() method to place the file somewhere on your server
+  sampleFile.mv('/upload/filename.jpg', function(err) {
+    if (err)
+      return res.status(500).send(err);
+
+    res.send('File uploaded!');
+  });
+});
 
 module.exports = router;
 // router.get('/geturl/:name', (req, res, next) => {
