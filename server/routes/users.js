@@ -192,59 +192,93 @@ router.post('/newuser', (req, res, next) => {
 });
 
 
+// <============== route for updating user settings from user account  ==================>
 
-//route for updating(creating) user from user side
-router.patch('/newuser', (req, res, next) => {
+router.patch('/updates', (req, res, next) => {
   const {
-    id, email, password, Gclass, first_name, last_name, grad_date, is_registred
+    id, email, name, password
   } = req.body;
 
-  if (!email || !email.trim()) {
-    return next(boom.create(400, 'Email must not be blank'));
+  if (name || !!name.trim()) {
+    return updateName(name)
+  }
+  else if (email || !!email.trim()) {
+    return updateEmail(email)
+  }
+  else if (password || !!password.trim()) {
+    if (password.length < 8) {
+      return next(boom.create(400, 'Password must be at least 8 characters'))
+    }
+    else {
+      return updatePassword(password)
+    }
+  }
+  else {
+    return next(boom.create(400, 'You have to fill the fields'))
   }
 
-  if (!password || password.length < 8) {
-    return next(boom.create(400, 'Password must be at least 8 characters'));
-  }
-  knex('users')
-    .where('email', email)
-    .first()
-    .then((user) => {
-      return bcrypt.hash(req.body.password, 12)
-    })
-    .then((hashed_password) => {
+  const updateName = function(name){
+    knex('users')
+      .where('id', id)
+      .first()
+      .then((user) => {
         return knex('users')
           .where('id', id )
-          .update({
-            first_name, last_name, email, hashed_password, Gclass, grad_date, is_registred
-        }, '*');
+          .update({ name }, '*');
       })
-    .then((users) => {
-      const user = users[0];
-
-      const claim = {
-        user_id: user.id
-      };
-      const token = jwt.sign(claim, process.env.JWT_KEY, {
-        expiresIn: '7 days' // Adds an expiration field to the payload
+      .then((users) => {
+        const user = users[0];
+        delete user.hashed_password
+        delete user.reg_url
+        delete user.is_registred
+        res.send(user);
+      })
+      .catch((err) => {
+        next(err);
       });
-
-      res.cookie('token', token, { // cookie is at the header
-        httpOnly: true,
-        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // lives 7 days, if you don't include expires after you log out
-        secure: router.get('env') === 'production'
-      });
-
-      delete user.hashed_password
-      delete user.reg_url
-      delete user.is_registred
-
-      res.send(user);
-    })
-    .catch((err) => {
-      next(err);
-    });
-});
+  }
+  const updateEmail = function(email){
+    knex('users')
+      .where('id', id)
+      .first()
+      .then((user) => {
+        return knex('users')
+          .where('id', id )
+          .update({ name }, '*');
+      })
+      .then((users) => {
+        const user = users[0];
+        delete user.hashed_password
+        delete user.reg_url
+        delete user.is_registred
+        res.send(user);
+      })
+      .catch((err) => {
+        next(err)
+      })
+  }
+  const updatePassword = function(password) {
+    knex('users')
+      .where('id', id)
+      .first()
+      .then((user) => {
+        return bcrypt.hash(password, 12)
+      })
+      .then((hashed_password) => {
+          return knex('users')
+            .where('id', id )
+            .update({ hashed_password }, '*')
+        })
+      .then((users) => {
+        console.log(users[0]);
+        const response = 'password'
+        res.send(response)
+      })
+      .catch((err) => {
+        next(err)
+      })
+  }
+})
 
 
 // <============== route to create invitation to users  ==================>
@@ -279,7 +313,7 @@ router.post('/newusers', (req, res, next) => {
         is_admin,
         reg_url,
         is_registred: false
-      }, '*');
+      }, '*')
     })
     .then((users) => {
       for (const user of users) {
@@ -308,9 +342,9 @@ router.post('/newusers', (req, res, next) => {
       }
     })
     .catch((err) => {
-      next(err);
-    });
-});
+      next(err)
+    })
+})
 
 // <============== route to get all users from admin panel ==================>
 

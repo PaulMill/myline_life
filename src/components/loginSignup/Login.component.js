@@ -40,8 +40,15 @@ export default class Login extends Component {
                           <label className="sr-only" htmlFor="email">E-Mail Address</label>
                           <div className="input-group mb-2 mr-sm-2 mb-sm-0">
                               <div className="input-group-addon" style={{width: "2.6rem"}}><i className="fa fa-at"></i></div>
-                              <input type="email" name="email" className="form-control" id="email"
-                                     placeholder="you@example.com" required autoFocus />
+                              <input
+                                type="email"
+                                name="email"
+                                placeholder="you@example.com"
+                                className="form-control"
+                                value={this.state.email}
+                                onChange={this.handleState}
+                                required
+                                autoFocus />
                           </div>
                       </div>
                   </div>
@@ -60,8 +67,15 @@ export default class Login extends Component {
                           <label className="sr-only" htmlFor="password">Password</label>
                           <div className="input-group mb-2 mr-sm-2 mb-sm-0">
                               <div className="input-group-addon" style={{width: "2.6rem"}}><i className="fa fa-key"></i></div>
-                              <input type="password" name="password" className="form-control" id="password"
-                                     placeholder="Password" required />
+                              <input
+                                type="password"
+                                name="password"
+                                className="form-control"
+                                placeholder="Password"
+                                value={this.state.password}
+                                onChange={this.handleState} 
+                                required
+                              />
                           </div>
                       </div>
                   </div>

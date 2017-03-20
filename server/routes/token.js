@@ -64,7 +64,7 @@ router.post('/', (req, res, next) => {
     });
 });
 
-router.get('/token', (req, res) => {
+router.get('/', (req, res) => {
   jwt.verify(req.cookies.token, process.env.JWT_KEY, (err, payload) => {
     if (err) {
       return res.send(false);
@@ -77,7 +77,7 @@ router.get('/token', (req, res) => {
   })
 })
 
-router.delete('/token', (req, res) => {
+router.delete('/', (req, res) => {
   res.clearCookie('token')
   res.clearCookie('user')
   res.end();

@@ -6,7 +6,7 @@ import Login from './components/loginSignup/Login.component'
 import SignUp from './components/loginSignup/SignUp.component'
 import ResetPassword from './components/loginSignup/ResetPassword.component'
 import PageError from './components/errorsPages/PageError.component'
-
+import UserInterface from './components/userInterface/UserInterface.component'
 
 
 
@@ -21,6 +21,7 @@ export default class Routes extends Component {
           <Route path='/login/forgot/:url' component={ResetPassword} />
           <Route path='/oops/:code' component={PageError} />
           <Route path='/uploads' component={UploadPhotos} />
+          <Route path='/account' component={UserInterface} />
         </Route>
       </Router>
     )

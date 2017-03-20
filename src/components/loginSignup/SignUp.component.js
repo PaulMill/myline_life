@@ -40,8 +40,8 @@ render(){
     <div className="container" style={{marginTop: "10%"}}>
       <form className="form-horizontal" role="form" method="POST" action="/register">
           <div className="row">
-              <div className="col-md-3"></div>
-              <div className="col-md-6" style={{textAlign: "center"}}>
+              <div className="col-md-3 col-sm-0"></div>
+              <div className="col-md-6 col-sm-12" style={{textAlign: "center"}}>
                 <h2>Register New User</h2>
                 <hr />
               </div>
