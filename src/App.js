@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import NavBar from './components/navBar/NavBar.component'
 
 class App extends Component {
   constructor(props) {
@@ -34,6 +35,7 @@ class App extends Component {
     const { isLoggedIn, userId, userName } = this.state
     return (
       <div>
+        <NavBar />
         {isLoggedIn
           ? <main>
                 { this.props.children

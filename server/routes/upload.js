@@ -16,8 +16,8 @@ const myBucket = 'myline.life'
 
 
 
-app.post('/photos', function(req, res) {
-  console.log(req.files);
+router.post('/photos', function(req, res) {
+  console.log(req);
   if (!req.files)
     return res.status(400).send('No files were uploaded.');
 

@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 const knex = require('../../knex')
 const nodemailer = require('nodemailer')
 const sha256 = require('sha256')
+const { camelizeKeys } = require('humps');
 
 // eslint-disable-next-line new-cap
 const router = express.Router()
@@ -24,10 +25,10 @@ router.post('/forgot', (req, res, next) => {
     .first()
     .then((user) => {
       if (!user) {
-        throw boom.create(400, 'User with this email not registred');
+        throw boom.create(400, 'User with this email not registred')
       }
-      const emailJSON = JSON.stringify(email);
-      return bcrypt.hash(emailJSON, 8);
+      const emailJSON = JSON.stringify(email)
+      return sha256(emailJSON)
     })
     .then((reg_url) => {
       forgot_url = `https://myline.life/login/forgot/${reg_url}`
@@ -114,7 +115,7 @@ router.get('/checkuser/:url', (req, res) => {
   knex('users')
     .where('reg_url', `${req.params.url}`)
     .then((data) => {
-      if(data.length){
+      if(data.length){   //check if user exist(if not empty array)
         return res.send(true)
       }
       else{
@@ -145,6 +146,52 @@ router.get('/newuser/:url', (req, res, next) => {
       next(err);
     });
 })
+
+
+// <============== route to signUp (registrer user)  ==================>
+router.post('/newuser', (req, res, next) => {
+  const {
+    email, name, password, url, birthday
+  } = req.body;
+
+  if (!password || !password.trim()) {
+    return next(boom.create(400, 'Admin status must not be blank'));
+  }
+  if (!email || !email.trim()) {
+    return next(boom.create(400, 'Email must not be blank'));
+  }
+
+  knex('users')
+    .where('email', email)
+    .first()
+    .then((user) => {
+      if (user) {
+        throw boom.create(400, 'Email already exists');
+      }
+
+      return bcrypt.hash(password, 12); // hashing password
+    })
+    .then((hashed_password) => {
+      return knex('users').insert({
+        email,
+        name,
+        hashed_password,
+        url,
+        birthday,
+        is_registred: true
+      }, '*');
+    })
+    .then((users) => {
+      const user = camelizeKeys(users[0])
+      delete user.hashedPassword
+      res.send(user)
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+
 
 //route for updating(creating) user from user side
 router.patch('/newuser', (req, res, next) => {

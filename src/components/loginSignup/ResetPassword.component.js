@@ -18,7 +18,8 @@ export default class ResetPassword extends Component {
       .then((res) => {
         console.log(res);
         if(!res.data)
-          browserHistory.push('/400')
+        console.log(res.data);
+          // browserHistory.push('/oops/400')
       })
       .catch(err => console.error('something wrong with server', err))
   }
@@ -62,7 +63,7 @@ export default class ResetPassword extends Component {
                 <label></label>
               </div>
               <div className="md-form">
-                <i className="fa fa-key prefix">Confirm your New Password</i>
+                <i className="fa fa-repeat prefix">Confirm your New Password</i>
                 <input
                   className="form-control"
                   type="password"
