@@ -128,7 +128,6 @@ export default class ChooseFiles extends Component {
                   >Show Photo</button>
               </form>
                 <div className="row">
-                  <div className="card-deck">
                   {this.state.photosToChoose.map((el, i) => (
                     <CardChoosePhoto
                       key={el.id}
@@ -138,7 +137,6 @@ export default class ChooseFiles extends Component {
                       choosedArr={this.state.choosedArr}
                     />
                   ))}
-                </div>
                 {this.state.choosedArr.length
                   ? <button
                     type="button"

@@ -25,6 +25,7 @@ app.use('/api/users', require('./routes/users'))
 app.use('/api/tokens', require('./routes/token'))
 app.use('/api/perms', require('./routes/permissions'))
 app.use('/api/photos', require('./routes/photos'))
+app.use('/api/albums', require('./routes/albums'))
 
 
 app.get('*', (req, res) => {

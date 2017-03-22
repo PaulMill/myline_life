@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import moment from 'moment'
+import { browserHistory } from 'react-router'
 import ChooseFiles from './ChooseFiles.component'
 
 export default class CreateAlbum extends Component {
@@ -9,7 +10,7 @@ export default class CreateAlbum extends Component {
     this.state = {
       indexPhoto: '',
       albumPhotos: [],
-      userId: '',
+      userId: 1,
       albumName: '',
       albumDate: '',
       albumDescription: '',
@@ -45,10 +46,27 @@ export default class CreateAlbum extends Component {
   }
   handleCreateAlbum(event){
     event.preventDefault()
-    console.log(this.state);
+    const date = new Date(this.state.albumDate).getTime()
+    const request = {
+      name: this.state.albumName,
+      albumDate: date,
+      albumType: this.state.albumType,
+      isPublic: this.state.isPublic,
+      description: this.state.albumDescription,
+      indexPhoto: this.state.indexPhoto,
+      ownerId: this.state.userId,
+      albumPhotos: this.state.albumPhotos
+    }
+    axios.post('/api/albums/new', request)
+      .then((res) => {
+        if(res.status === 200){
+          return browserHistory.push('/albums')
+        }
+        console.log('status', res.status, 'data', res.data);
+      })
+      .catch(err => (console.error(err)))
   }
   render(){
-    console.log(this.state.indexPhotoURL);
     return (
       <div className="container">
         <div className="row" style={{margin: "5% 0"}}>
@@ -170,7 +188,7 @@ export default class CreateAlbum extends Component {
         {this.state.albumPhotos.length
           ? <div className="row">
             {this.state.albumPhotos.map((el, indx) => (
-              <div className="col-sm-3" key={el.id}>
+              <div className="col-md-3 col-sm-6" key={el.id}>
                 <div className="card" style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.5rem", color: "red", margin: '2% 0'}}>
                   <img
                     className="card-img-top"
