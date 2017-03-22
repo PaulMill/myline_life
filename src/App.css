@@ -21,6 +21,9 @@
 a {
   text-decoration: none;
 }
+.fadeCardBgr{
+  background: rgb(205,242,198)
+}
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

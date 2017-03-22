@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
+import { Link } from 'react-router'
 
 export default class NavBar extends Component {
+
   render(){
     return(
       <nav className="navbar navbar-toggleable-md navbar-light bg-faded sticky-top">
@@ -8,19 +10,19 @@ export default class NavBar extends Component {
           <span className="navbar-toggler-icon"></span>
         </button>
         <a className="navbar-brand" href="#">
-          <img src="./images/logo.jpg" width="30" height="30" className="d-inline-block align-top" alt="" />
+          <img src="/images/logo.jpg" width="30" height="30" className="d-inline-block align-top" alt="" />
         </a>
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item active">
-              <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
+              <Link to={'/index'} className="nav-link">Home <span className="sr-only">(current)</span></Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Link</a>
+              <Link to={'/albums'} className="nav-link" >Albums</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link disabled" href="#">Disabled</a>
+              <Link to={'/albums/new'} className="nav-link" >Create Albums</Link>
             </li>
           </ul>
           <form className="form-inline my-2 my-lg-0">

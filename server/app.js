@@ -24,6 +24,7 @@ app.use(bodyParser.json())
 app.use('/api/users', require('./routes/users'))
 app.use('/api/tokens', require('./routes/token'))
 app.use('/api/perms', require('./routes/permissions'))
+app.use('/api/photos', require('./routes/photos'))
 
 
 app.get('*', (req, res) => {

@@ -44,7 +44,7 @@ export default class PermSettings extends Component {
             <div className="card-header" role="tab" id="headingOnePerm">
               <h5 className="mb-0">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOnePerm" aria-expanded="true" aria-controls="collapseOnePerm">
-                  My photos  <span style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem"}}>Check your permissions to photos</span>
+                  My Shared Photos <span style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem"}}>Check your permissions to photos</span>
                 </a>
               </h5>
             </div>
@@ -61,7 +61,7 @@ export default class PermSettings extends Component {
             <div className="card-header" role="tab" id="headingTwoPerm">
               <h5 className="mb-0">
                 <a className="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwoPerm" aria-expanded="false" aria-controls="collapseTwoPerm">
-                  My Albums  <span style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem"}}>Check your permissions to albums</span>
+                  My Shared Albums  <span style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem"}}>Check your permissions to albums</span>
                 </a>
               </h5>
             </div>
@@ -70,7 +70,7 @@ export default class PermSettings extends Component {
                 <div className="row">
                   <div className="col-sm-4">
                     <div className="card">
-                      <img class="card-img-top" src="..." alt="Card image cap" />
+                      <img className="card-img-top" src="..." alt="Card image cap" />
                       <div className="card-block">
                         <h5 className="card-title">Special title treatment</h5>
 
@@ -79,7 +79,7 @@ export default class PermSettings extends Component {
                       </div>
                     </div>
                   </div>
-                  
+
                 </div>
               </div>
             </div>

@@ -1,11 +1,11 @@
 'use strict';
 
-const boom = require('boom');
-const express = require('express');
-const knex = require('../../knex');
-const { camelizeKeys } = require('humps');
+const boom = require('boom')
+const express = require('express')
+const knex = require('../../knex')
+const { camelizeKeys } = require('humps')
 
-const router = express.Router();
+const router = express.Router()
 
 router.get('/albums', (req, res) => {
   // knex('albums')
@@ -17,4 +17,4 @@ router.get('/albums', (req, res) => {
   //   })
   //   .catch((err) => console.log(err))
 })
-module.exports = router;
+module.exports = router

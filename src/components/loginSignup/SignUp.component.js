@@ -199,7 +199,7 @@ render(){
                     type="button"
                     className="btn btn-success btn-lg"
                     onClick={this.handleSubmit}
-                  ><i className="fa fa-user-plus"></i> Register</button>
+                  ><i className="fa fa-user-plus"></i> Add Photos to Album</button>
               </div>
           </div>
       </form>

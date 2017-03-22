@@ -9,7 +9,7 @@ exports.up = function(knex) {
     table.string('url_photo_small').notNullable().defaultTo('')
     table.text('description').notNullable().defaultTo('')
     table.integer('likes').notNullable().defaultTo(0)
-    table.string('photo_date').notNullable().defaultTo('')
+    table.bigInteger('photo_date').notNullable().defaultTo(0)
     table.boolean('is_public').notNullable().defaultTo(false)
     table.string('camera_model').notNullable().defaultTo('')
     table.integer('user_id')
