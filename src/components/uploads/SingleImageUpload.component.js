@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import {Grid, Row, Col, Thumbnail, Image, Button} from 'react-bootstrap'
 import EXIF from 'exif-js' //for getting info from metadata of jpg file
 import moment from 'moment' //for formating nice date
 
@@ -9,13 +8,13 @@ export default class SingleImageUpload extends Component {
     this.state = {
       dateOfPhoto: '',
       camera: '',
-      name: ''
+      name: '',
+      description: 'Here is some of description'
     }
     this.getDate = this.getDate.bind(this)
     this.formatDate = this.formatDate.bind(this)
   }
   getDate(ele){
-    console.log(ele);
     let camera;
     let dateOfPhoto;
     EXIF.getData(ele, function() {
@@ -26,7 +25,6 @@ export default class SingleImageUpload extends Component {
     })
     const photoDateJS = Date.parse(dateOfPhoto)
     this.setState({dateOfPhoto, camera, name: `${photoDateJS}`})
-    console.log(photoDateJS);
   }
   formatDate(){
     const date = this.state.dateOfPhoto
@@ -34,30 +32,35 @@ export default class SingleImageUpload extends Component {
   }
   render(){
     return(
-        <Grid>
-              <Row className="show-grid">
-                  <Col sm={6} md={5} style={
-                    {
-                      maxHeight: '450px',
-                      maxWidth: '250px',
-                      // overflow: 'auto',
-                      margin: '1.2rem'
-                    }
-                  }>
-                    <Thumbnail style={{border: 'none'}}>
-                      <img ref={this.getDate} src={this.props.image} style={{width: '190px', height: '140px'}} alt="photo"/>
-                      {/* <Link to='details'> */}
-
-                      <span>name of photo:</span>
-                      <input name="name" value={`Photo ${this.state.name}`} />
-                      <hr />
-                      <h6>Created by: Paul</h6>
-                      <p><span>Photo was created: </span><strong>{this.formatDate()}</strong></p>
-                      <h6>Camera: <strong>{this.state.camera}</strong></h6>
-                    </Thumbnail>
-                  </Col>
-              </Row>
-            </Grid>
+        <div className="container">
+          <div className="row">
+            {this.props.photos.map((el, indx) => (
+              <div className="col-md-3 col-sm-6" key={indx}>
+                <div className="card" style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.6rem", color: "red", margin: '2% 0'}}>
+                  <img ref={() => this.getDate(el)} className="card-img-top" src={el} alt="imageUploads" style={{maxHeight: "150px"}} />
+                  <div className="card-block">
+                    <p className="card-title">Date: <strong>{this.formatDate}</strong></p>
+                    <p className="card-text">{this.state.description}</p>
+                    <p className="card-text">Camera: {this.state.camera}</p>
+                  </div>
+                  <div className="card-footer">
+                    <button
+                      type="button"
+                      className="btn btn-outline-primary btn-sm"
+                      style={{margin: "0 3%"}}
+                    >Delete</button>
+                    <button
+                      style={{margin: "0 3%"}}
+                      type="button"
+                      className="btn btn-outline-secondary btn-sm"
+                    >Show Full Size
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
     )
   }
 }

@@ -194,7 +194,7 @@ export default class CreateAlbum extends Component {
                     className="card-img-top"
                     src={el.urlPhotoSmall}
                     alt={el.name}
-                    style={{maxHeight: "120px"}}
+                    style={{maxHeight: "170px"}}
                   />
                   <div className="card-block">
                     <p className="card-title">Date: <strong>{this.handleDatePhoto(el.photoDate)}</strong></p>
