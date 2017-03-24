@@ -1,77 +1,63 @@
 import React, { Component } from 'react'
-import axios from 'axios'
-import EXIF from 'exif-js'
-import superagent from 'superagent'
 import Dropzone from 'react-dropzone'
-import SingleImageUpload from './SingleImageUpload.component'
+import axios from 'axios'
+
 
 export default class UploadPhotos extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      formData: new FormData(),
-      imagesIsLoaded: false,
       ownerID: 1,
       ownerName: 'PAUL M',
       name: "Photo",
       dateOfPhoto: '',
       camera: '',
-      photos: [],
       files: []
     }
-    this.handleLoadImages = this.handleLoadImages.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleStateUpload = this.handleStateUpload.bind(this)
     this.onDrop = this.onDrop.bind(this)
     this.onOpenClick = this.onOpenClick.bind(this)
+    this.deletePhotoFromUpload = this.deletePhotoFromUpload.bind(this)
   }
 
-  handleLoadImages(event) {
-    let uploadedPictures = []
-    const files = event.target.files
-    const formData = new FormData()
-    for (const file of files) {
-      if (!file.type.match('image.*')) {
-        continue
-      }
-      formData.append('photos[]', file)
-  // function to show photos before submit
-      const reader = new FileReader()
-        reader.onload = function(data) {
-          let imageData = data.target.result
-          uploadedPictures.push(imageData)
-          console.log(uploadedPictures);
+  handleSubmit(event){
+    event.preventDefault()
+      const p = new Promise((resolve, reject) => {
+        const formData = new FormData()
+        for (const file of this.state.files) {
+          if (!file.type.match('image.*')) {
+            continue
+          }
+          formData.append('photos[]', file)
         }
-      reader.readAsDataURL(file)
+        resolve(formData)
+      })
+      p.then((formData) => {
+        axios.post('/api/upload/photos', formData)
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+      })
+      .catch(err =>(console.error(err)))
     }
-    this.setState({photos: uploadedPictures, imagesIsLoaded: true, formData: formData})
+
+  deletePhotoFromUpload(el, index){
+    let newArray = this.state.files
+    newArray.splice(index, 1)
+    this.setState({files: newArray})
   }
 
   onDrop(files) {
-      this.setState({photos: files});
+      this.setState({files: files});
     }
     onOpenClick() {
       this.refs.dropzone.open();
     }
 
-  handleSubmit(event){
-    event.preventDefault()
-    superagent.post('/api/upload/photos')
-      .send(this.state.formData)
-      .end((err, res) => {
-        if (err || !res.ok) {
-         console.log('Oh no! error');
-        } else {
-         console.log('yay got ' + res.data);
-        }
-
-        this.setState({ formData: new FormData() })
-      }
-    )
-  }
   render() {
-    const isLoaded = this.state.imagesIsLoaded
-    console.log(this.state.photos);
     return (
       <div className="container">
         <div className="row">
@@ -94,7 +80,7 @@ export default class UploadPhotos extends Component {
         </div>
           {this.state.files.length
             ? <div>
-                <button type="button" className="btn btn-outline-success btn-lg btn-block" style={{margin: "5% 0"}}>Upload {this.state.files.length} pictures</button>
+                <button type="button" className="btn btn-outline-success btn-lg btn-block" style={{margin: "5% 0"}} onClick={this.handleSubmit}>Upload {this.state.files.length} pictures</button>
                 <div className="row">{this.state.files.map((file, indx) => {
                   return (
                     <div className="col-md-3 col-sm-6" key={indx}>
@@ -110,6 +96,7 @@ export default class UploadPhotos extends Component {
                             type="button"
                             className="btn btn-outline-primary btn-sm"
                             style={{margin: "0 3%"}}
+                            onClick={() => (this.deletePhotoFromUpload(file, indx))}
                           >Delete</button>
                           <button
                             style={{margin: "0 3%"}}

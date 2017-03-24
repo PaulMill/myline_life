@@ -26,9 +26,7 @@ const upload = multer({
   })
 })
 
-
-router.post('/photos', upload.array('photos[]'), function(req, res) {
-
+router.post('/photos', upload.array('photos[]'), (req, res) => {
   console.log(req.files);
   res.send('Successfully uploaded ' + req.files.length + ' files!')
 

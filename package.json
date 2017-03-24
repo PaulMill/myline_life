@@ -9,7 +9,6 @@
     "body-parser": "^1.17.1",
     "boom": "^4.2.0",
     "cookie-parser": "^1.4.3",
-    "dotenv": "^4.0.0",
     "exif-js": "^2.1.1",
     "express": "^4.15.2",
     "humps": "^2.0.0",
