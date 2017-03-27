@@ -25,8 +25,9 @@ router.post('/photos', uploadMulter.array('photos[]'), (req, res) => {
   let photoDate = ''
   let cameraModel = ''
   let namePhoto = ''
+  let doneUploads = [];
 
-  function uploaderS3(fileB, ispublic, info, indexFile){
+  function uploaderS3(fileB, ispublic, info, indexFile, callback){
       s3.upload({
        Bucket: myBucket,
        Key: `${indexFile}/${indexFile}-${Date.now().toString()}`,
@@ -37,13 +38,16 @@ router.post('/photos', uploadMulter.array('photos[]'), (req, res) => {
          console.log(err);
        }
        if (indexFile === 'lg') {
-         urlPhotoFull = data.Location
+         urlPhotoFull = data.Location;
+         if (callback) callback();
        }
        else if (indexFile === 'md') {
          urlPhotoSized = data.Location
+         if (callback) callback();
        }
        else if (indexFile === 'sm') {
          urlPhotoSmall = data.Location
+         if (callback) callback();
        }
      })
    }
@@ -79,15 +83,17 @@ router.post('/photos', uploadMulter.array('photos[]'), (req, res) => {
                   quality: 90
                 })
                 .rotate()
-                .toBuffer((err, buffer, info) => {
-                  if(err){
-                    console.error(err)
-                    throw err
-                  }
-                  uploaderS3(buffer, 'public-read', info, 'lg')
+                .toBuffer()
+                .then((data) => {
+                  return new Promise ((resolve, reject) => {
+                    uploaderS3(data, 'public-read', 'info', 'lg', () => {
+                      resolve();
+                    })
+                  })
                 })
               })
-              .then(function(data1) { // resizing for medium size and saving to folder md
+              .then(function() { // resizing for medium size and saving to folder md
+                console.log(3);
                 return image
                 .withMetadata()
                 .resize(1328, 747)
@@ -95,12 +101,13 @@ router.post('/photos', uploadMulter.array('photos[]'), (req, res) => {
                   quality: 90
                 })
                 .rotate()
-                .toBuffer((err, buffer, info) => {
-                  if(err){
-                    console.error(err)
-                    throw err
-                  }
-                  uploaderS3(buffer, 'public-read', info, 'md')
+                .toBuffer()
+                .then((data) => {
+                  return new Promise ((resolve, reject) => {
+                    uploaderS3(data, 'public-read', 'info', 'md', () => {
+                      resolve();
+                    })
+                  })
                 })
               })
               .then(function(data2) { // resizing for small size and saving to folder sm
@@ -111,21 +118,21 @@ router.post('/photos', uploadMulter.array('photos[]'), (req, res) => {
                   quality: 90
                 })
                 .rotate()
-                .toBuffer((err, buffer, info) => {
-                  if(err){
-                    console.error(err)
-                    throw err
-                  }
-                  uploaderS3(buffer, 'public-read', info, 'sm')
+                .toBuffer()
+                .then((data) => {
+                  return new Promise ((resolve, reject) => {
+                    uploaderS3(data, 'public-read', 'info', 'sm', () => {
+                      resolve();
+                    })
+                  })
                 })
+              })
+              .then(() => {
+                resolve({urlPhotoSmall, urlPhotoSized, urlPhotoFull});
               })
               .catch((err) => {
                 console.error(err)
               })
-              // resolve({urlPhotoSmall, urlPhotoSized, urlPhotoFull})
-              setTimeout(() => {
-                resolve({urlPhotoSmall, urlPhotoSized, urlPhotoFull})
-              }, 2500)
       })
       p.then((obj) => {
           knex('photos')
@@ -139,11 +146,15 @@ router.post('/photos', uploadMulter.array('photos[]'), (req, res) => {
             user_id: 1
           }, '*')
           .then((data) => {
-            console.log(data);
-            res.send(data)
+            console.log(data)
+            doneUploads.push(data)
           })
           .catch((err) => console.error(err))
         })
+
+    }
+    if(req.files.length === doneUploads.length){
+      res.send(doneUploads);
     }
 })
 
