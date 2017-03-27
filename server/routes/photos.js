@@ -32,4 +32,16 @@ router.get('/queries', (req, res, next) => {
     .catch(err => next(err))
 })
 
+router.get('/show/:id', (req, res, next) => {
+  const id = req.params.id
+  knex('photos')
+    .where('id', id)
+    .orderBy('photo_date', 'DESC')
+    .then((photos) => {
+      console.log(photos);
+      res.send(camelizeKeys(photos))
+    })
+    .catch(err => next(err))
+})
+
 module.exports = router

@@ -10,6 +10,7 @@ import UserInterface from './components/userInterface/UserInterface.component'
 import MainPage from './components/MainPage.component'
 import CreateAlbum from './components/albums/CreateAlbum.component'
 import AllAlbums from './components/albums/AllAlbums.component'
+import ShowPhotos from './components/photos/ShowPhotos.component'
 
 
 export default class Routes extends Component {
@@ -27,6 +28,7 @@ export default class Routes extends Component {
           <Route path='/account' component={UserInterface} />
           <Route path='/albums/new' component={CreateAlbum} />
           <Route path='/albums' component={AllAlbums} />
+          <Route path='/photos/:indx' component={ShowPhotos} />
         </Route>
       </Router>
     )

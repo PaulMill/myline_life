@@ -60,7 +60,7 @@ export default class UploadPhotos extends Component {
   render() {
     return (
       <div className="container">
-        <div className="row">
+        <div className="row justify-content-md-center" style={{margin: "10% 0"}}>
           <div className="col-md-4 col-sm-6">
             <Dropzone ref="dropzone" onDrop={this.onDrop} accept="image/*" style={{
               borderWidth: "2px",
@@ -75,7 +75,7 @@ export default class UploadPhotos extends Component {
             >
               <div>Drag and drop here pictures what you want to upload or click button below to choose pictures</div>
           </Dropzone>
-          <button type="button" className="btn btn-outline-primary" style={{margin: "5% 0"}} onClick={this.onOpenClick}>Choose files to upload</button>
+          <button type="button" className="btn btn-outline-primary" style={{margin: "5% 7%"}} onClick={this.onOpenClick}>Choose files to upload</button>
           </div>
         </div>
           {this.state.files.length

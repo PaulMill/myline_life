@@ -9,7 +9,8 @@ class App extends Component {
       this.state = {
         isLoggedIn: true,
         userId: 0,
-        userName: ''
+        userName: '',
+        photosToShow: []
       }
       this.editParentState = this.editParentState.bind(this)
     }
@@ -32,14 +33,14 @@ class App extends Component {
     }
 
   render() {
-    const { isLoggedIn, userId, userName } = this.state
+    const { isLoggedIn, userId, userName, photosToShow } = this.state
     return (
       <div>
         <NavBar />
         {isLoggedIn
           ? <main>
                 { this.props.children
-                  ? React.cloneElement(this.props.children, {isLoggedIn, userId, userName, editParentState: this.editParentState})
+                  ? React.cloneElement(this.props.children, {photosToShow, isLoggedIn, userId, userName, editParentState: this.editParentState})
                   : null
                 }
             </main>
