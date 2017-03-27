@@ -93,7 +93,6 @@ router.post('/photos', uploadMulter.array('photos[]'), (req, res) => {
                 })
               })
               .then(function() { // resizing for medium size and saving to folder md
-                console.log(3);
                 return image
                 .withMetadata()
                 .resize(1328, 747)
