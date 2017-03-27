@@ -9,7 +9,7 @@
     "body-parser": "^1.17.1",
     "boom": "^4.2.0",
     "cookie-parser": "^1.4.3",
-    "exif-js": "^2.1.1",
+    "exif": "^0.6.0",
     "express": "^4.15.2",
     "humps": "^2.0.0",
     "jsonwebtoken": "^7.3.0",
@@ -26,6 +26,7 @@
     "react-router": "^3.0.2",
     "react-toastr": "^2.8.2",
     "sha256": "^0.2.0",
+    "sharp": "^0.17.2",
     "superagent": "^3.5.0"
   },
   "devDependencies": {

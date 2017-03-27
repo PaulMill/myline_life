@@ -22,7 +22,7 @@ export default class MainPage extends Component {
       <div className="container">
       <div className="row">
         {this.state.photos.map((el) => (
-          <div className="col-sm-4" style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem", margin: '2% 0'}}>
+          <div className="col-sm-6 col-md-4" style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem", margin: '2% 0'}}>
             <div className="card card-inverse">
                 <img className="card-img-top" src={el.urlPhotoSmall} alt="Card image" style={{maxHeight: "200px"}} />
                 <div className="card-img-overlay">

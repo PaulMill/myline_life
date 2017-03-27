@@ -24,6 +24,9 @@ export default class NavBar extends Component {
             <li className="nav-item">
               <Link to={'/albums/new'} className="nav-link" >Create Albums</Link>
             </li>
+            <li className="nav-item">
+              <Link to={'/uploads'} className="nav-link" >Upload Photos</Link>
+            </li>
           </ul>
           <form className="form-inline my-2 my-lg-0">
             <button style={{margin: "0 2%"}} className="btn btn-outline-info my-2 my-sm-0" type="button">My Account</button>
