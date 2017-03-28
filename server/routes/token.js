@@ -43,7 +43,7 @@ router.post('/', (req, res, next) => {
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
         secure: router.get('env') === 'production'
       });
-      const userName = [user.firstName, user.lastName].join(' ')
+      const userName = [user.name]
       res.cookie('userName', userName, {
         httpOnly: true,
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
@@ -70,7 +70,7 @@ router.get('/', (req, res) => {
       return res.send(false);
     }
     res.send({
-      userName: req.cookies.userName,
+      userName: req.cookies.userName[0],
       userId: payload.userId,
       isLoggedIn: true
     })

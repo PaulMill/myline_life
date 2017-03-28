@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Router, browserHistory, IndexRedirect } from 'react-router'
+import { Route, Router, browserHistory } from 'react-router'
 import App from './App'
 import UploadPhotos from './components/uploads/UploadPhotos.component'
 import Login from './components/loginSignup/Login.component'
@@ -18,8 +18,7 @@ export default class Routes extends Component {
     return (
       <Router history={browserHistory} >
         <Route path='/' component={App}>
-          <IndexRedirect to='/index' />
-          <Route path='/index' component={MainPage} />
+          <Route path='/photos' component={MainPage} />
           <Route path='/login' component={Login} />
           <Route path='/signup' component={SignUp} />
           <Route path='/login/forgot/:url' component={ResetPassword} />

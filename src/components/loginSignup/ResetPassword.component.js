@@ -19,7 +19,7 @@ export default class ResetPassword extends Component {
         console.log(res);
         if(!res.data)
         console.log(res.data);
-          // browserHistory.push('/oops/400')
+          browserHistory.push('/oops/400')
       })
       .catch(err => console.error('something wrong with server', err))
   }

@@ -3,9 +3,6 @@ import MySettings from './MySettings.component'
 import PermSettings from './PermSettings.component'
 
 export default class UserInterface extends Component {
-  constructor(props){
-    super(props)
-  }
   render(){
     return(
       <div className="container" style={{marginTop: "3%"}}>

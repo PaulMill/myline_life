@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 import ForgotPassword from './ForgotPassword.component'
+import axios from 'axios'
 
 export default class Login extends Component {
   constructor(props){
@@ -11,13 +12,36 @@ export default class Login extends Component {
       forgot: false
     }
     this.handleState = this.handleState.bind(this)
-
+    this.handleLogin = this.handleLogin.bind(this)
+    this.handleSignup = this.handleSignup.bind(this)
   }
   handleState(event){
     this.setState({[event.target.name]: event.target.value})
   }
   handleSignup(){
     browserHistory.push('/signup')
+  }
+  handleLogin(event){
+    event.preventDefault()
+    const request = {email: this.state.email, password: this.state.password}
+    axios.post('/api/tokens', request, { validateStatus: (status) => status < 500})
+      .then((row) => {
+        if (row.status < 400) {
+          // const user = {
+          //   isLoggedIn: true,
+          //   userId: row.data.id,
+          //   userName: `${row.data.firstName} ${row.data.lastName}`
+          // }
+          // this.props.editParentState(user)
+          browserHistory.push('/photos')
+          location.reload(true)
+        }
+        else {
+          alert("Message from server: "  + row.data)
+          this.setState({ email: '', password: ''})
+        }
+      })
+
   }
   render(){
     return(
@@ -73,7 +97,7 @@ export default class Login extends Component {
                                 className="form-control"
                                 placeholder="Password"
                                 value={this.state.password}
-                                onChange={this.handleState} 
+                                onChange={this.handleState}
                                 required
                               />
                           </div>
@@ -102,7 +126,11 @@ export default class Login extends Component {
               <div className="row" style={{paddingTop: "1rem"}}>
                   <div className="col-md-3"></div>
                   <div className="col-md-6">
-                      <button type="submit" className="btn btn-outline-success"><i className="fa fa-sign-in"></i> Login</button>
+                      <button
+                        type="button"
+                        className="btn btn-outline-success"
+                        onClick={this.handleLogin}
+                        ><i className="fa fa-sign-in"></i> Login</button>
                       <button type="button" name="forgot" className="btn btn-link" value="true" style={{margin: "0 4%"}} onClick={this.handleState}>Forgot your password?</button>
                       <button type="button" className="btn btn-outline-primary" onClick={() => browserHistory.push('/signup')}><i className="fa fa-user-plus"></i> Sign Up</button>
                   </div>

@@ -22,8 +22,8 @@ handleState(event){
 }
 handleSubmit(event){
   event.preventDefault()
-  const {name, email, birthday, password} = this.state
-  const request = {name, email, birthday, password}
+  const {name, email, birthday, password, url} = this.state
+  const request = {name, email, birthday, password, url}
   axios.post('api/users/newuser', request)
     .then((data) => {
       console.log(data)

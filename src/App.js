@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import NavBar from './components/navBar/NavBar.component'
+import axios from 'axios'
 
 class App extends Component {
   constructor(props) {
@@ -18,16 +19,17 @@ class App extends Component {
       this.setState(newState)
     }
     componentWillMount(){
-      // axios.get('/api/tokens/token')
-      //   .then((res) => {
-      //     if (!res.data) {
-      //       return console.log(res.data);
-      //     }
-      //     this.setState(res.data)
-      //   })
-      //   .catch(err => {
-      //     console.error(err);
-      //   })
+      axios.get('/api/tokens')
+        .then((res) => {
+          if (!res.data) {
+            return console.log(res.data);
+          }
+          console.log(res.data)
+          this.setState(res.data)
+        })
+        .catch(err => {
+          console.error(err);
+        })
     }
 
   render() {
@@ -35,22 +37,22 @@ class App extends Component {
     return (
       <div>
         <NavBar login={isLoggedIn}/>
-        {isLoggedIn
-          ? <main>
-                { this.props.children
-                  ? React.cloneElement(this.props.children, {photosToShow, isLoggedIn, userId, userName, editParentState: this.editParentState})
-                  : null
-                }
-            </main>
-          : <div>
-            <video className="videoWelcomePage" poster="./bground/bgr.jpg" autoPlay="true" loop>
-              <source src="./bground/bgr.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
-              <source src="./bground/bgr.webm" type="video/webm" />Your browser does not support the video tag. I suggest you upgrade your browser.
-            </video>
-            </div>
-        }
+          { this.props.children
+            ? React.cloneElement(this.props.children, {photosToShow, isLoggedIn, userId, userName, editParentState: this.editParentState})
+            : null
+          }
+          {this.state.isLoggedIn
+            ? <div></div>
+            : <main>
+                <video className="videoWelcomePage" poster="./bground/bgr.jpg" autoPlay="true" loop>
+                  <source src="./bground/bgr.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
+                  <source src="./bground/bgr.webm" type="video/webm" />Your browser does not support the video tag. I suggest you upgrade your browser.
+                </video>
+              </main>
+          }
+
       </div>
-    );
+    )
   }
 }
 

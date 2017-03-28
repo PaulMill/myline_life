@@ -19,7 +19,7 @@ export default class ShowPhotos extends Component{
         axis="horizontal"
         showThumbs={true}
         showArrows={true}
-        width={1100}
+        width="1100"
         useKeyboardArrows={true}
         autoPlay={true}
         stopOnHover={true}
@@ -27,7 +27,7 @@ export default class ShowPhotos extends Component{
         emulateTouch={true}>
         {this.state.photosToShow.map((el) => {
           return (
-            <div>
+            <div key={el.id}>
               <img src={el.urlPhotoSized} />
               <p className="legend">Date: {el.photoDate}</p>
             </div>
