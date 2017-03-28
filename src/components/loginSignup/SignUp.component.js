@@ -25,8 +25,9 @@ handleSubmit(event){
   const {name, email, birthday, password, url} = this.state
   const request = {name, email, birthday, password, url}
   axios.post('api/users/newuser', request)
-    .then((data) => {
-      console.log(data)
+    .then((row) => {
+      console.log(row.data)
+      browserHistory.push('/login')
     })
     .catch((err) => {
       console.error(err)

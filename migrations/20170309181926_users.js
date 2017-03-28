@@ -6,7 +6,7 @@ exports.up = function(knex) {
     table.string('name').notNullable().defaultTo('')
     table.string('email').notNullable()
     table.specificType('hashed_password', 'char(60)').notNullable()
-    table.string('url').unique().notNullable()
+    table.string('url').unique().notNullable().defaultTo('')
     table.string('address1').notNullable().defaultTo('')
     table.string('address2').notNullable().defaultTo('')
     table.string('city').notNullable().defaultTo('')
