@@ -44,7 +44,8 @@ export default class MySettings extends Component {
             <div className="card-header" role="tab" id="headingOne">
               <h5 className="mb-0">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                  My name: {this.props.userName}.  <span style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem"}}>Click to change name</span>
+                  Change name {this.props.userName}
+                  {/* <span style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem"}}>Click to change name</span> */}
                 </a>
               </h5>
             </div>
@@ -96,7 +97,8 @@ export default class MySettings extends Component {
             <div className="card-header" role="tab" id="headingTwo">
               <h5 className="mb-0">
                 <a className="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  My email {this.props.email}  <span style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem"}}>Click to change email</span>
+                  Change email {this.props.email}
+                  {/* <span style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem"}}>Click to change email</span> */}
                 </a>
               </h5>
             </div>
@@ -147,7 +149,8 @@ export default class MySettings extends Component {
             <div className="card-header" role="tab" id="headingThree">
               <h5 className="mb-0">
                 <a className="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                  Change password {this.props.password}  <span style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem"}}>Click to change password</span>
+                  Change password {this.props.password}  
+                  {/* <span style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem"}}>Click to change password</span> */}
                 </a>
               </h5>
             </div>

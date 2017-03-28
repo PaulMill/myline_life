@@ -41,7 +41,7 @@ export default class AllAlbums extends Component {
       <div className="container m-t-md">
         <div className="row m-t-md">
           {this.state.albums.map((el, indx) => (
-              <div className="col-xs-12 col-md-4" key={el.id} >
+              <div className="col-xs-12 col-md-4" style={{margin: '1% 0'}} key={el.id} >
                 <article className={`card card-inverse animated cardAlbumsAll ${this.state.classAnimation} text-center`}>
                   <img className="img-responsive" src={el.indexPhoto} alt="Deer in nature" style={{maxHeight: "200px"}} />
                   <div className="card-img-overlay cardAlbumsAll">

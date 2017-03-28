@@ -52,9 +52,7 @@ router.post('/photos', uploadMulter.array('photos[]'), (req, res) => {
        }
      })
    }
-
   for (const file of req.files) {
-
     const ExifImage = require('exif').ExifImage;
       try {
           new ExifImage({ image : file.buffer }, function (error, exifData) {
@@ -71,7 +69,6 @@ router.post('/photos', uploadMulter.array('photos[]'), (req, res) => {
       } catch (error) {
           console.log('Error: ' + error.message)
       }
-
     const p = new Promise ((resolve, reject) => {
           const image = sharp(file.buffer)
               image
@@ -156,7 +153,6 @@ router.post('/photos', uploadMulter.array('photos[]'), (req, res) => {
           })
           .catch((err) => console.error(err))
         })
-
     }
     if(req.files.length === doneUploads.length){
       res.send(doneUploads)
