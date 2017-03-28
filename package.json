@@ -44,6 +44,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "knex": "knex"
+    "knex": "knex",
+    "heroku-postbuild": "export NODE_ENV=production; knex migrate:latest"
   }
 }
