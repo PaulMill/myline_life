@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router'
-import ShowPhotos from './photos/ShowPhotos.component'
+import moment from 'moment'
 
 export default class MainPage extends Component {
   constructor(props){
@@ -9,7 +9,7 @@ export default class MainPage extends Component {
     this.state = {
       photos: []
     }
-    this.handleLink = this.handleLink.bind(this)
+    this.handleDatePhoto = this.handleDatePhoto.bind(this)
   }
   componentWillMount(){
     axios.get('api/photos')
@@ -19,13 +19,9 @@ export default class MainPage extends Component {
       })
       .catch(err => console.log(err))
   }
-  handleLink(indx){
-    let newArr = []
-    for (let i = indx; i < 51 || i < this.state.photos.length; i++) {
-      newArr.push(this.state.photos[i])
-    }
-
-    this.props.editParentState({photosToShow: newArr})
+  handleDatePhoto(el){
+    let newDate = new Date(parseInt(el))
+    return moment(newDate, "YYYY-MM-DD HH:mm").format('LLL')
   }
 
   render(){
@@ -34,14 +30,12 @@ export default class MainPage extends Component {
       <div className="row">
         {this.state.photos.map((el ,indx) => (
           <div className="col-sm-6 col-md-4" style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem", margin: '2% 0'}} key={indx}>
-            <Link to={`/photos/${indx}`} activeClassName="active" onClick={() => { return this.handleLink(indx)}}>
+            <Link to={`/photos/${el.id}`} activeClassName="active">
               <div className="card card-inverse">
                   <img className="card-img-top" src={el.urlPhotoSmall} alt="Card image" style={{maxHeight: "200px"}} />
                   <div className="card-img-overlay">
-                    <p className="card-text">{el.description}</p>
-                    <p className="card-text">Photo was took: {el.photoDate}</p>
-                    <p className="card-text">Added by: {el.userId}</p>
-                    <p className="card-text"><small className="text-muted">Uploaded by: {el.createdAt}</small></p>
+                    <p className="card-text" style={{margin: "45% 0 0 0", textAlign: "center"}}>{el.description}</p>
+                    <p className="card-text" style={{textAlign: "center", color: "#7db952"}}><strong>Date photo: {this.handleDatePhoto(el.photoDate)}</strong></p>
                   </div>
               </div>
             </Link>

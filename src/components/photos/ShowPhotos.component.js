@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import './carousel.css'
+import moment from 'moment'
+import axios from 'axios'
 
 export default class ShowPhotos extends Component{
   constructor(props){
@@ -8,11 +10,22 @@ export default class ShowPhotos extends Component{
     this.state = {
       photosToShow: []
     }
+    this.handleDatePhoto = this.handleDatePhoto.bind(this)
   }
   componentWillMount(){
-    this.setState({photosToShow: this.props.photosToShow})
+    axios.get(`/api/photos/show/${this.props.params.id}`)
+      .then((res) => {
+        console.log('res.data', res.data);
+        this.setState({photosToShow: res.data})
+      })
+      .catch((err) => (console.error(err)))
+  }
+  handleDatePhoto(el){
+    let newDate = new Date(parseInt(el))
+    return moment(newDate, "YYYY-MM-DD HH:mm").format('LLLL')
   }
   render(){
+    console.log(this.state.photosToShow)
     return(
       <div className="container">
       <Carousel
@@ -25,11 +38,11 @@ export default class ShowPhotos extends Component{
         stopOnHover={true}
         dynamicHeight={true}
         emulateTouch={true}>
-        {this.state.photosToShow.map((el) => {
+        {this.state.photosToShow.map((el, indx) => {
           return (
-            <div key={el.id}>
+            <div key={indx} style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "1rem", color: "red", margin: '2% 0'}}>
               <img src={el.urlPhotoSized} />
-              <p className="legend">Date: {el.photoDate}</p>
+              <p className="legend"><strong>Date: {this.handleDatePhoto(el.photoDate)}</strong> Camera: {el.cameraModel}</p>
             </div>
           )
         })}
