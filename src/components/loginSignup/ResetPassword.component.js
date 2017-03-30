@@ -44,7 +44,7 @@ export default class ResetPassword extends Component {
   }
   render(){
     return(
-      <div className="row justify-content-md-center" style={{marginTop: "10%"}}>
+      <div className="row justify-content-md-center" style={{marginTop: "10%", backgroundColor: "#23272A", color: "#C4CFCF"}}>
         <div className="col-md-4 col-sm-6">
           <div className="card">
             <div className="card-block">

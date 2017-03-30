@@ -69,7 +69,7 @@ export default class CreateAlbum extends Component {
   render(){
     return (
       <div className="container">
-        <div className="row" style={{margin: "5% 0"}}>
+        <div className="row" style={{margin: "5% 0", color: "#C4CFCF"}}>
           <div className="col-md-8 col-sm-12">
             <img src={this.state.indexPhotoURL} style={{maxHeight: "400px"}} />
           </div>

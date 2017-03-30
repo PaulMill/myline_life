@@ -57,7 +57,7 @@ export default class ChooseFiles extends Component {
           <div className="row">
             <div className="col-sm-12">
               <form className="form-inline">
-                <label className="mr-sm-2">Show photos from date:</label>
+                <label className="mr-sm-2" style={{color: "#C4CFCF"}}>Show photos from date:</label>
                 <select
                   className="custom-select mb-2 mr-sm-2 mb-sm-0"
                   name="fromDateMonth"
@@ -88,7 +88,7 @@ export default class ChooseFiles extends Component {
                     <option key={el} value={el}>{el}</option>
                   ))}
                 </select>
-                <label className="mr-sm-2" style={{margin: "0 2%"}}> To date:</label>
+                <label className="mr-sm-2" style={{margin: "0 2%", color: "#C4CFCF"}}> To date:</label>
                 <select
                   className="custom-select mb-2 mr-sm-2 mb-sm-0"
                   name="toDateMonth"

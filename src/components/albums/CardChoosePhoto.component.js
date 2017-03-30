@@ -26,7 +26,7 @@ export default class CardChoosePhoto extends Component {
     return(
       <div className="col-md-3 col-sm-6">
         <div className={`card ${this.state.newClassNameCard}`} style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.5rem", color: "red", margin: '2% 0'}}>
-          <img className="card-img-top" src={el.urlPhotoSmall} alt={el.name} style={{maxHeight: "120px"}}/>
+          <img className="card-img-top" src={el.urlPhotoSmall} alt={el.name} style={{maxHeight: "140px"}}/>
           <div className="card-block">
             <p className="card-title">Date: <strong>{this.handleDatePhoto(el.photoDate)}</strong></p>
             <p className="card-text">{el.description}</p>

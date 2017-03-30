@@ -11,7 +11,7 @@ import MainPage from './components/MainPage.component'
 import CreateAlbum from './components/albums/CreateAlbum.component'
 import AllAlbums from './components/albums/AllAlbums.component'
 import ShowPhotos from './components/photos/ShowPhotos.component'
-
+import ShowAlbum from './components/albums/ShowAlbum.component'
 
 export default class Routes extends Component {
   render() {
@@ -28,6 +28,7 @@ export default class Routes extends Component {
           <Route path='/albums/new' component={CreateAlbum} />
           <Route path='/albums' component={AllAlbums} />
           <Route path='/photos/:id' component={ShowPhotos} />
+          <Route path='/album/:id' component={ShowAlbum} />
         </Route>
       </Router>
     )

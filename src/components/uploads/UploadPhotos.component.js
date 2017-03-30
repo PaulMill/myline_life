@@ -64,13 +64,19 @@ export default class UploadPhotos extends Component {
           <div className="col-md-4 col-sm-6">
             <Dropzone ref="dropzone" onDrop={this.onDrop} accept="image/*" style={{
               borderWidth: "2px",
-              borderColor: "black",
+              borderColor: "#C4CFCF",
               borderStyle: "dashed",
               borderRadius: "4px",
               margin: "5% 0",
               padding: "30px",
               width: "250px",
-              transition: "all 0.5s"
+              height: "250px",
+              transition: "all 0.5s",
+              backgroundColor: "#23272A",
+              color: "#C4CFCF",
+              fontWeight: "550",
+              fontSize: "1.1rem",
+              textAlign: "center"
               }}
             >
               <div>Drag and drop here pictures what you want to upload or click button below to choose pictures</div>
@@ -84,26 +90,20 @@ export default class UploadPhotos extends Component {
                 <div className="row">{this.state.files.map((file, indx) => {
                   return (
                     <div className="col-md-3 col-sm-6" key={indx}>
-                      <div className="card" style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.6rem", color: "red", margin: '2% 0'}}>
+                      <div className="card" style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.6rem", color: "red", margin: '2% 0', backgroundColor: "#54585B"}}>
                         <img className="card-img-top" src={file.preview} alt="imageUploads" style={{maxHeight: "160px"}} />
                         <div className="card-block">
                           <p className="card-title">Date: <strong></strong></p>
                           {/* <p className="card-text">{this.state.description}</p>
                           <p className="card-text">Camera: {this.state.camera}</p> */}
                         </div>
-                        <div className="card-footer">
+                        <div className="card-footer" style={{backgroundColor: "#323638", textAlign: "center"}}>
                           <button
                             type="button"
                             className="btn btn-outline-primary btn-sm"
                             style={{margin: "0 3%"}}
                             onClick={() => (this.deletePhotoFromUpload(file, indx))}
                           >Delete</button>
-                          <button
-                            style={{margin: "0 3%"}}
-                            type="button"
-                            className="btn btn-outline-secondary btn-sm"
-                          >Show Full Size
-                          </button>
                         </div>
                       </div>
                     </div>

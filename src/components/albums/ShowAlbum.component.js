@@ -4,7 +4,7 @@ import moment from 'moment'
 import { browserHistory } from 'react-router'
 import ChooseFiles from './ChooseFiles.component'
 
-export default class CreateAlbum extends Component {
+export default class ShowAlbum extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -20,169 +20,51 @@ export default class CreateAlbum extends Component {
       showButtonAddAlbum: false
     }
     this.handleState = this.handleState.bind(this)
-    this.editStateCreateAlbum = this.editStateCreateAlbum.bind(this)
-    this.deletePhotoFromAlbum = this.deletePhotoFromAlbum.bind(this)
-    this.handleIndexPhoto = this.handleIndexPhoto.bind(this)
-    this.handleDatePhoto = this.handleDatePhoto.bind(this)
-    this.handleCreateAlbum = this.handleCreateAlbum.bind(this)
-  }
-  deletePhotoFromAlbum(el, index){
-    let newArray = this.state.albumPhotos
-    newArray.splice(index, 1)
-    this.setState({albumPhotos: newArray})
+    this.getDate = this.getDate.bind(this)
+    this.handleShowPhotos = this.handleShowPhotos.bind(this)
   }
   handleState(event){
     this.setState({[event.target.name]: event.target.value})
   }
-  editStateCreateAlbum(newState){
-    this.setState(newState)
-  }
-  handleIndexPhoto(el){
-    this.setState({indexPhoto: el.id, indexPhotoURL: el.urlPhotoSized, showButtonAddAlbum: true})
-  }
-  handleDatePhoto(el){
+  getDate(el){
     let newDate = new Date(parseInt(el))
     return moment(newDate, "YYYY-MM-DD HH:mm").format('LLLL')
   }
-  handleCreateAlbum(event){
+  handleShowPhotos(event){
     event.preventDefault()
-    const date = new Date(this.state.albumDate).getTime()
-    const request = {
-      name: this.state.albumName,
-      albumDate: date,
-      albumType: this.state.albumType,
-      isPublic: this.state.isPublic,
-      description: this.state.albumDescription,
-      indexPhoto: this.state.indexPhoto,
-      ownerId: this.state.userId,
-      albumPhotos: this.state.albumPhotos
-    }
-    axios.post('/api/albums/new', request)
-      .then((res) => {
-        if(res.status === 200){
-          return browserHistory.push('/albums')
-        }
-        console.log('status', res.status, 'data', res.data);
-      })
-      .catch(err => (console.error(err)))
+
   }
   render(){
     return (
       <div className="container">
-        <div className="row" style={{margin: "5% 0"}}>
+        <div className="row" style={{margin: "5% 0", color: "#C4CFCF"}}>
           <div className="col-md-8 col-sm-12">
             <img src={this.state.indexPhotoURL} style={{maxHeight: "400px"}} />
           </div>
-          <div className="col-md-4 col-sm-12">
-            <div className="form-group">
-              <div className="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div className="input-group-addon" style={{width: "2.6rem"}}><i className="fa fa-folder-open"></i></div>
-                <input
-                  type="text"
-                  name="albumName"
-                  onChange={this.handleState}
-                  value={this.state.albumName}
-                  className="form-control"
-                  placeholder="name of album"
-                  required
-                  autoFocus
-                />
-              </div>
+          <div className="col-md-4 col-sm-12" style={{textAlign: "center"}}>
+            <div style={{margin: "5% 0"}}>
+              <h3> Name of Album:</h3>
+              <h5><strong>{this.state.name}</strong></h5>
             </div>
-            <div className="form-group">
-              <div className="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div className="input-group-addon" style={{width: "2.6rem"}}><i className="fa fa-calendar "></i></div>
-                <input
-                  type="date"
-                  name="albumDate"
-                  onChange={this.handleState}
-                  value={this.state.albumDate}
-                  className="form-control"
-                  required
-                />
-              </div>
-              <div className="form-control-feedback">
-                <span className="text-danger align-middle">
-                  {/* <!-- Put name validation error messages here --> */}
-                </span>
-              </div>
+            <div style={{margin: "5% 0"}}>
+              <h4> Description:</h4>
+              <h5>{this.state.description}</h5>
             </div>
-            <div className="form-group">
-              <div className="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div className="input-group-addon" style={{width: "2.6rem"}}><i className="fa fa-pencil-square-o"></i></div>
-                <textarea
-                  type="text"
-                  name="albumDescription"
-                  onChange={this.handleState}
-                  value={this.state.albumDescription}
-                  className="form-control"
-                  placeholder="Short description of album"
-                  required
-                />
-              </div>
-              <div className="form-control-feedback">
-                <span className="text-danger align-middle">
-                  {/* <!-- Put name validation error messages here --> */}
-                </span>
-              </div>
+            <div style={{margin: "5% 0"}}>
+              <h4>Date of album:</h4>
+              <h5>{this.getDate(this.state.albumDate)}</h5>
             </div>
-            <div className="form-group">
-              <div className="form-check form-check-inline">
-                <p>Choose type of album</p>
-                <label className="form-check-label">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="albumType"
-                    value="albums"
-                    onChange={this.handleState}
-                  /> Photo Album
-                </label>
-              </div>
-              <div className="form-check form-check-inline">
-                <label className="form-check-label">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="albumType"
-                    value="moments"
-                    onChange={this.handleState}
-                  /> Moments
-                </label>
-              </div>
+            <div style={{margin: "5% 0"}}>
+              <h4>Album is {this.state.isPublic}</h4>
             </div>
-            <div className="form-group">
-              <div className="form-check form-check-inline">
-                <p>Choose privacy:</p>
-                <label className="form-check-label">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="isPublic"
-                    value="false"
-                    onChange={this.handleState}
-                  /> Private view
-                </label>
-              </div>
-              <div className="form-check form-check-inline">
-                <label className="form-check-label">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="isPublic"
-                    value="true"
-                    onChange={this.handleState} /> Public view
-                </label>
-              </div>
+            <div style={{margin: "5% 0"}}>
+              <h4>Created by {this.state.userName}</h4>
             </div>
-            {this.state.showButtonAddAlbum
-              ? <button
-                  type="button"
-                  className="btn btn-success btn-lg btn-block"
-                  onClick={this.handleCreateAlbum}
-                >CREATE ALBUM</button>
-              : <div style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem", color: "red", margin: '2% 0'}}><strong>You have to fill all fields than take photos for album and choose cover photo</strong></div>
-            }
+              <button
+                type="button"
+                className="btn btn-success btn-lg btn-block"
+                onClick={this.handleCreateAlbum}
+              >SHOW PHOTOS</button>
           </div>
         </div>
         {this.state.albumPhotos.length
@@ -197,33 +79,22 @@ export default class CreateAlbum extends Component {
                     style={{maxHeight: "170px"}}
                   />
                   <div className="card-block">
-                    <p className="card-title">Date: <strong>{this.handleDatePhoto(el.photoDate)}</strong></p>
+                    <p className="card-title">Date: <strong>{this.getDate(el.photoDate)}</strong></p>
                     <p className="card-text">{el.description}</p>
                   </div>
                   <div className="card-footer">
                     <button
                       type="button"
-                      className="btn btn-outline-primary btn-sm"
-                      onClick={() => (this.deletePhotoFromAlbum(el, indx))}
-                      style={{margin: "0 3%"}}
-                    >Delete</button>
-                    <button
-                      type="button"
                       className="btn btn-outline-secondary btn-sm"
                     >Details</button>
-                    <button
-                      type="button"
-                      className="btn btn-outline-success btn-sm"
-                      onClick={() => (this.handleIndexPhoto(el))}
-                      style={{margin: "0 3%"}}
-                    >Cover</button>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          : <div className="row">
-            <ChooseFiles editStateCreateAlbum={this.editStateCreateAlbum}/>
+          : <div className="row" style={{color: "#C4CFCF"}}>
+            <h4>This album doesn't have any of photo</h4>
+            <h4>To add photos to album click button on the side bar "Modify"</h4>
           </div>
         }
       </div>

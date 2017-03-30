@@ -49,7 +49,7 @@ export default class Login extends Component {
         {this.state.forgot
           ? <ForgotPassword />
 
-          : <form className="form-horizontal" role="form" method="POST" action="/login">
+          : <form className="form-horizontal" role="form" method="POST" action="/login" style={{color: "#C4CFCF"}}>
               <div className="row" style={{marginTop: "10%", textAlign: "center"}}>
                   <div className="col-md-3"></div>
                   <div className="col-md-6">

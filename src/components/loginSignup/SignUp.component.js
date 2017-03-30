@@ -38,7 +38,7 @@ formValidation(event){
 }
 render(){
   return(
-    <div className="container" style={{marginTop: "10%"}}>
+    <div className="container" style={{marginTop: "10%", color: "#C4CFCF"}}>
       <form className="form-horizontal" role="form" method="POST" action="/register">
           <div className="row">
               <div className="col-md-3 col-sm-0"></div>

@@ -35,11 +35,10 @@ router.get('/queries', (req, res, next) => {
 router.get('/show/:id', (req, res, next) => {
   const id = req.params.id
   knex.select('*').from('photos')
-    .where('id', id)
-    // .orderBy('photo_date', 'DESC')
-    .limit(10)
+    .where('id', '>=', id)
+    .orderBy('photo_date', 'DESC')
+    .limit(25)
     .then((photos) => {
-      console.log(photos);
       res.send(camelizeKeys(photos))
     })
     .catch(err => next(err))

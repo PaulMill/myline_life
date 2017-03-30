@@ -30,9 +30,9 @@ export default class ForgotPassword extends Component {
   }
   render(){
     return(
-      <div className="row justify-content-md-center" style={{marginTop: "10%"}}>
+      <div className="row justify-content-md-center" style={{marginTop: "10%", color: "#C4CFCF"}}>
         <div className="col-md-6 col-sm-12">
-          <div className="card">
+          <div className="card" style={{backgroundColor: "#54585B"}}>
             <div className="card-block">
               <div className="form-header" style={{textAlign: "center"}}>
                 <h5 ><i className="fa fa-lock"></i> Forgot password? Not a problem:</h5>
