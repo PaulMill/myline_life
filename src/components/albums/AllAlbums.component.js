@@ -25,15 +25,6 @@ export default class AllAlbums extends Component {
     return moment(newDate, "YYYY-MM-DD HH:mm").format('LL')
   }
   render(){
-    let left = 'fadeInLeft'
-    let down = ''
-    const handleAnimationCards = () => {
-      return left
-      ? ('fadeInLeft', left = '')
-      : down
-        ? ('fadeInDown', down = '')
-        : ('fadeInRight', left = 'fadeInLeft')
-    }
     return(
       <div style={{margin: "4% 0"}}>
       <div className="container m-t-md">
@@ -41,7 +32,7 @@ export default class AllAlbums extends Component {
           {this.state.albums.map((el, indx) => (
               <div className="col-xs-12 col-md-4" style={{margin: '1% 0'}} key={el.id} >
                 <Link to={`/album/${el.id}`} activeClassName="active">
-                <article className={`card card-inverse animated cardAlbumsAll ${handleAnimationCards()} text-center`}>
+                <article className={`card card-inverse animated cardAlbumsAll fadeInLeft text-center`}>
                   <img className="img-responsive" src={el.indexPhoto} alt="Deer in nature" style={{maxHeight: "200px"}} />
                   <div className="card-img-overlay cardAlbumsAll">
                     <h4 className="card-title">{el.name}</h4>

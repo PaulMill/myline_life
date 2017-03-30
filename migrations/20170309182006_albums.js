@@ -8,6 +8,7 @@ exports.up = function(knex) {
     table.string('album_type').notNullable().defaultTo('')
     table.boolean('is_public').notNullable().defaultTo(false)
     table.text('description').notNullable().defaultTo('')
+    table.integer('likes').notNullable().defaultTo(0)
     table.integer('index_photo')
       .references('photos.id')
       .notNullable()

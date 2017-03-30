@@ -49,8 +49,8 @@ router.get('/queries', (req, res, next) => {
 // <============== route to create Album ==================>
 
 router.post('/new', (req, res, next) => {
-  let {name, albumDate, albumType, isPublic, description, indexPhoto, ownerId, albumPhotos} = req.body
-  let insertRequest = decamelizeKeys({ name, albumDate, albumType, isPublic, description, indexPhoto, ownerId})
+  const {name, albumDate, albumType, isPublic, description, indexPhoto, ownerId, albumPhotos} = req.body
+  const insertRequest = decamelizeKeys({ name, albumDate, albumType, isPublic, description, indexPhoto, ownerId})
 
   knex('users')
     .where('id', ownerId)
@@ -59,23 +59,62 @@ router.post('/new', (req, res, next) => {
       if(!user){
         throw boom.create(400, 'User does not exist')
       }
+      return user
     })
     .then(() => {
-      return knex('albums').insert(insertRequest, '*')
+      return knex('albums').insert(insertRequest, '*').then()
     })
     .then((album) => {
-      albumPhotos.map((photo) => {
-        return knex('photos_albums').insert({
-          album_id: album.id,
-          photo_id: photo.id
-        }, '*')
-      })
+       return knex('photos_albums')
+          .insert(albumPhotos.map((ele) => {
+            return { album_id: album[0].id, photo_id: ele.id }
+          }), '*')
     })
     .then((data) => {
-      console.log('data', data);
       res.send(data)
     })
     .catch(err => (console.error(err)))
+})
+
+router.get('/show/:id', (req, res, next) => {
+  const id = req.params.id
+  knex('albums')
+    .select(
+      'albums.id',
+      'albums.album_date',
+      'albums.album_type',
+      'albums.description as description',
+      'photos.url_photo_small as index_photo_url',
+      'albums.is_public',
+      'albums.name',
+      'users.name as owner_name'
+    )
+    .where('albums.id', id)
+    .innerJoin('users', 'albums.owner_id', 'users.id')
+    .innerJoin('photos', 'albums.index_photo', 'photos.id')
+    .first()
+    .then((row) => {
+      res.send(camelizeKeys(row))
+    })
+    .catch((err) => {
+      console.error(err)
+      next(err)
+    })
+})
+
+router.get('/photos/:albumId', (req, res, next) => {
+  const id = req.params.albumId
+    knex('photos_albums')
+      .select('*')
+      .where('album_id', id)
+      .innerJoin('photos', 'photos_albums.photo_id', 'photos.id')
+      .then((rows) => {
+        res.send(camelizeKeys(rows))
+      })
+      .catch((err) => {
+        console.error(err)
+        next(err)
+      })
 })
 
 module.exports = router
