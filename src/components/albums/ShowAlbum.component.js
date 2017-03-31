@@ -3,11 +3,13 @@ import axios from 'axios'
 import moment from 'moment'
 import { browserHistory } from 'react-router'
 import ChooseFiles from './ChooseFiles.component'
+import SinglePictureModal from '../photos/SinglePictureModal.component'
 
 export default class ShowAlbum extends Component {
   constructor(props){
     super(props)
     this.state = {
+      albumId: 1,
       albumPhotos: [],
       ownerName: '',
       albumName: '',
@@ -16,12 +18,14 @@ export default class ShowAlbum extends Component {
       albumType: '',
       isPublic: false,
       indexPhotoURL: '',
-      showButtonAddAlbum: false
+      albumLikes: 0,
+      showModalPhoto: false,
+      showModalPhotoURL: ''
     }
     this.handleState = this.handleState.bind(this)
     this.getDate = this.getDate.bind(this)
-    this.handleShowPhotos = this.handleShowPhotos.bind(this)
     this.handleIsPublic = this.handleIsPublic.bind(this)
+    this.showPhotosSlides = this.showPhotosSlides.bind(this)
   }
   componentWillMount(){
     const newState = {}
@@ -44,7 +48,9 @@ export default class ShowAlbum extends Component {
             indexPhotoURL: album.indexPhotoUrl,
             albumType: album.albumType,
             isPublic: album.isPublic,
-            albumPhotos: res.data
+            albumPhotos: res.data,
+            albumId: albumId,
+            albumLikes: album.likes
           })
         })
         .catch(err => (console.error(err)))
@@ -56,11 +62,11 @@ export default class ShowAlbum extends Component {
   }
   getDate(el){
     let newDate = new Date(parseInt(el))
-    return moment(newDate, "YYYY-MM-DD HH:mm").format('LLLL')
+    return moment(newDate, "YYYY-MM-DD HH:mm").format('LL')
   }
-  handleShowPhotos(event){
+  showPhotosSlides(event){
     event.preventDefault()
-
+    browserHistory.push(`/album/show/${this.state.albumId}`)
   }
   handleIsPublic(){
     if(this.state.isPublic){
@@ -68,9 +74,16 @@ export default class ShowAlbum extends Component {
     }
     return 'Private view only'
   }
+  toggleModal(url){
+    this.setState({showModalPhoto: true, showModalPhotoURL: url})
+  }
   render(){
     return (
       <div>
+        {this.state.showModalPhoto
+          ? <div><SinglePictureModal url={this.state.showModalPhotoURL} /> </div>
+          : null
+        }
         <div className="side-nav-menu" style={{marginTop: "4%"}}>
           <nav>
             <ul>
@@ -101,7 +114,7 @@ export default class ShowAlbum extends Component {
             </ul>
           </nav>
         </div>
-        <div className="container main-content-side-nav">
+        <div className="container main-content-side-nav animated fadeInRight">
           <div className="row" style={{margin: "5% 0", color: "#C4CFCF"}}>
             <div className="col-md-8 col-sm-12">
               <img src={this.state.indexPhotoURL} style={{maxHeight: "400px"}} />
@@ -130,7 +143,7 @@ export default class ShowAlbum extends Component {
                 <button
                   type="button"
                   className="btn btn-success btn-lg btn-block"
-                  onClick={this.handleCreateAlbum}
+                  onClick={this.showPhotosSlides}
                 >SHOW PHOTOS</button>
             </div>
           </div>
@@ -138,7 +151,7 @@ export default class ShowAlbum extends Component {
             ? <div className="row">
               {this.state.albumPhotos.map((el, indx) => (
                 <div className="col-md-3 col-sm-6" key={el.id}>
-                  <div className="card" style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.5rem", color: "red", margin: '2% 0'}}>
+                  <div className="card" style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem", color: "red", margin: '2% 0', backgroundColor: "#53585B"}}>
                     <img
                       className="card-img-top"
                       src={el.urlPhotoSmall}
@@ -146,14 +159,25 @@ export default class ShowAlbum extends Component {
                       style={{maxHeight: "140px"}}
                     />
                     <div className="card-block">
-                      <p className="card-title">Date: <strong>{this.getDate(el.photoDate)}</strong></p>
+                      <p className="card-title">Date: {this.getDate(el.photoDate)}</p>
                       <p className="card-text">{el.description}</p>
                     </div>
-                    <div className="card-footer">
+                    <div className="card-footer" style={{backgroundColor: "#313638", textAlign: "center"}}>
                       <button
                         type="button"
-                        className="btn btn-outline-secondary btn-sm"
-                      >Details</button>
+                        className="btn btn-outline-primary btn-sm"
+                        style={{margin: "0 3%"}}
+                        data-toggle="modal"
+                        data-target=".bd-example-modal-lg"
+                        onClick={() => this.toggleModal(el.urlPhotoSized)}
+                      >Show single</button>
+                      <button
+                        type="button"
+                        className="btn btn-outline-success btn-sm"
+                        style={{margin: "0 3%"}}
+                        onClick={this.showPhotosSlides}
+                      >Show slides
+                      </button>
                     </div>
                   </div>
                 </div>

@@ -33,7 +33,7 @@ export default class AllAlbums extends Component {
               <div className="col-xs-12 col-md-4" style={{margin: '1% 0'}} key={el.id} >
                 <Link to={`/album/${el.id}`} activeClassName="active">
                 <article className={`card card-inverse animated cardAlbumsAll fadeInLeft text-center`}>
-                  <img className="img-responsive" src={el.indexPhoto} alt="Deer in nature" style={{maxHeight: "200px"}} />
+                  <img className="img-responsive" src={el.indexPhoto} alt="index-photo-of-album" style={{maxHeight: "200px"}} />
                   <div className="card-img-overlay cardAlbumsAll">
                     <h4 className="card-title">{el.name}</h4>
                     <p className="card-text">{el.description}</p>

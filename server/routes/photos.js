@@ -44,4 +44,15 @@ router.get('/show/:id', (req, res, next) => {
     .catch(err => next(err))
 })
 
+router.get('/single/:id', (req, res, next) => {
+  const id = req.params.id
+    knex('photos')
+      .where('id', id)
+      .first()
+      .then((row) => {
+        res.send(row)
+      })
+      .catch(err => next(err))
+})
+
 module.exports = router

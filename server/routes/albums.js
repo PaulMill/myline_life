@@ -87,7 +87,8 @@ router.get('/show/:id', (req, res, next) => {
       'photos.url_photo_small as index_photo_url',
       'albums.is_public',
       'albums.name',
-      'users.name as owner_name'
+      'users.name as owner_name',
+      'albums.likes'
     )
     .where('albums.id', id)
     .innerJoin('users', 'albums.owner_id', 'users.id')

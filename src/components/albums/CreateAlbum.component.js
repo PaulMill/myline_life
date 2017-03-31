@@ -3,6 +3,7 @@ import axios from 'axios'
 import moment from 'moment'
 import { browserHistory } from 'react-router'
 import ChooseFiles from './ChooseFiles.component'
+import SinglePictureModal from '../photos/SinglePictureModal.component'
 
 export default class CreateAlbum extends Component {
   constructor(props){
@@ -17,7 +18,9 @@ export default class CreateAlbum extends Component {
       albumType: '',
       isPublic: false,
       indexPhotoURL: '',
-      showButtonAddAlbum: false
+      showButtonAddAlbum: false,
+      showModalPhoto: false,
+      showModalPhotoURL: ''
     }
     this.handleState = this.handleState.bind(this)
     this.editStateCreateAlbum = this.editStateCreateAlbum.bind(this)
@@ -25,6 +28,7 @@ export default class CreateAlbum extends Component {
     this.handleIndexPhoto = this.handleIndexPhoto.bind(this)
     this.handleDatePhoto = this.handleDatePhoto.bind(this)
     this.handleCreateAlbum = this.handleCreateAlbum.bind(this)
+    this.toggleModal = this.toggleModal.bind(this)
   }
   deletePhotoFromAlbum(el, index){
     let newArray = this.state.albumPhotos
@@ -66,9 +70,16 @@ export default class CreateAlbum extends Component {
       })
       .catch(err => (console.error(err)))
   }
+  toggleModal(url){
+    this.setState({showModalPhoto: true, showModalPhotoURL: url})
+  }
   render(){
     return (
       <div className="container">
+        {this.state.showModalPhoto
+          ? <div><SinglePictureModal url={this.state.showModalPhotoURL} /> </div>
+          : null
+        }
         <div className="row" style={{margin: "5% 0", color: "#C4CFCF"}}>
           <div className="col-md-8 col-sm-12">
             <img src={this.state.indexPhotoURL} style={{maxHeight: "400px"}} />
@@ -189,18 +200,18 @@ export default class CreateAlbum extends Component {
           ? <div className="row">
             {this.state.albumPhotos.map((el, indx) => (
               <div className="col-md-3 col-sm-6" key={el.id}>
-                <div className="card" style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.5rem", color: "red", margin: '2% 0'}}>
+                <div className="card" style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem", color: "red", margin: '2% 0', backgroundColor: "#53585B"}}>
                   <img
                     className="card-img-top"
                     src={el.urlPhotoSmall}
                     alt={el.name}
-                    style={{maxHeight: "170px"}}
+                    style={{maxHeight: "140px"}}
                   />
                   <div className="card-block">
                     <p className="card-title">Date: <strong>{this.handleDatePhoto(el.photoDate)}</strong></p>
                     <p className="card-text">{el.description}</p>
                   </div>
-                  <div className="card-footer">
+                  <div className="card-footer" style={{backgroundColor: "#313638"}}>
                     <button
                       type="button"
                       className="btn btn-outline-primary btn-sm"
@@ -210,6 +221,9 @@ export default class CreateAlbum extends Component {
                     <button
                       type="button"
                       className="btn btn-outline-secondary btn-sm"
+                      data-toggle="modal"
+                      data-target=".bd-example-modal-lg"
+                      onClick={() => this.toggleModal(el.urlPhotoSized)}
                     >Details</button>
                     <button
                       type="button"

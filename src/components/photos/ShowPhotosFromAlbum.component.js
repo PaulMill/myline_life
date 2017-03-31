@@ -5,7 +5,7 @@ import moment from 'moment'
 import axios from 'axios'
 import SideNav from '../navBar/SideNav.component'
 
-export default class ShowPhotos extends Component{
+export default class ShowPhotosFromAlbum extends Component{
   constructor(props){
     super(props)
     this.state = {
@@ -14,7 +14,7 @@ export default class ShowPhotos extends Component{
     this.handleDatePhoto = this.handleDatePhoto.bind(this)
   }
   componentWillMount(){
-    axios.get(`/api/photos/show/${this.props.params.id}`)
+    axios.get(`/api/albums/photos/${this.props.params.id}`)
       .then((res) => {
         this.setState({photosToShow: res.data})
       })
@@ -25,6 +25,7 @@ export default class ShowPhotos extends Component{
     return moment(newDate, "YYYY-MM-DD HH:mm").format('LLLL')
   }
   render(){
+    console.log(this.state.photosToShow)
     return(
       <div>
         <SideNav />
