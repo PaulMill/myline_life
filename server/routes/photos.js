@@ -3,15 +3,29 @@
 const boom = require('boom')
 const express = require('express')
 const knex = require('../../knex')
-const { camelizeKeys } = require('humps')
+const { decamelizeKeys, camelizeKeys } = require('humps')
+const jwt = require('jsonwebtoken')
 
 const router = express.Router()
 
+const authorize = function(req, res, next) {
+  const token = req.cookies.token
+  jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+    if (err) {
+      return next(boom.create(401, 'Unauthorized'))
+    }
+    req.token = decoded
+    next()
+  })
+}
+
 // <============== route to get all photos  ==================>
-router.get('/', (req, res) => {
+router.get('/', authorize, (req, res) => {
   knex('photos')
+    .where('user_id', req.token.userId)
     .orderBy('photo_date', 'DESC')
     .then((photos) => {
+      console.log(photos);
       res.send(camelizeKeys(photos))
     })
     .catch((err) => console.log(err))
@@ -19,11 +33,12 @@ router.get('/', (req, res) => {
 
 // <============== route to get photos by searching queries fromDate to toDate ==================>
 
-router.get('/queries', (req, res, next) => {
+router.get('/queries', authorize, (req, res, next) => {
   const fromDate = parseInt(req.query.fromDate)
   const toDate = parseInt(req.query.toDate)
   knex('photos')
-    .where('photo_date', '>', fromDate)
+    .where('user_id', req.token.userId)
+    .andWhere('photo_date', '>', fromDate)
     .andWhere('photo_date', '<', toDate)
     .orderBy('photo_date', 'DESC')
     .then((photos) => {
@@ -32,10 +47,11 @@ router.get('/queries', (req, res, next) => {
     .catch(err => next(err))
 })
 
-router.get('/show/:id', (req, res, next) => {
+router.get('/show/:id', authorize, (req, res, next) => {
   const id = req.params.id
   knex.select('*').from('photos')
-    .where('id', '>=', id)
+    .where('user_id', req.token.userId)
+    .andWhere('id', '>=', id)
     .orderBy('photo_date', 'DESC')
     .limit(25)
     .then((photos) => {
@@ -44,10 +60,11 @@ router.get('/show/:id', (req, res, next) => {
     .catch(err => next(err))
 })
 
-router.get('/single/:id', (req, res, next) => {
+router.get('/single/:id', authorize, (req, res, next) => {
   const id = req.params.id
     knex('photos')
-      .where('id', id)
+      .where('user_id', req.token.userId)
+      .andWhere('id', id)
       .first()
       .then((row) => {
         res.send(row)

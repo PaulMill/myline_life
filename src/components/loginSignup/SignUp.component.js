@@ -112,7 +112,7 @@ render(){
               <div className="col-md-6 col-sm-8">
                   <div className="form-group">
                       <div className="input-group mb-2 mr-sm-2 mb-sm-0">
-                          <div className="input-group-addon" style={{width: "2.6rem"}}><i className="fa fa-laptop"></i></div> <strong style={{margin: "0 5% 0 5%"}}>www.</strong>
+                          <div className="input-group-addon" style={{width: "2.6rem"}}><i className="fa fa-laptop"></i></div> <strong style={{margin: "0 3% 0 5%"}}>www.thebook.photos/</strong>
                           <input
                             type="text"
                             name="url"
@@ -122,7 +122,6 @@ render(){
                             onChange={this.handleState}
                             required
                             autoFocus />
-                                 <strong style={{margin: "0 15% 0 2%"}}>.myline.life</strong>
                       </div>
                   </div>
               </div>
@@ -190,7 +189,7 @@ render(){
               <div className="col-lg-3 col-md-1 col-sm-1" style={{textAlign: "center"}}>
               <button
                 type="button"
-                className="btn btn-outline-secondary"
+                className="btn btn-outline-secondary btn-lg"
                 onClick={() => browserHistory.push('/login')}
               >
                 <i className="fa fa-sign-in"></i> Back to LogIn</button>

@@ -13,11 +13,6 @@ export default class NavBar extends Component {
     this.handleRedirect = this.handleRedirect.bind(this)
     this.handleLogOut = this.handleLogOut.bind(this)
   }
-  componentDidMount(){
-    setTimeout(() => {
-      this.setState({isLoggedIn: this.props.login})
-    }, 100)
-  }
   handleRedirect(string){
     browserHistory.push(string)
   }
@@ -43,27 +38,27 @@ export default class NavBar extends Component {
             <img src="/images/logo.jpg" width="30" height="30" className="d-inline-block align-top" alt="logo" />
           </a>
 
-          {this.state.isLoggedIn
+          {this.props.login
             ? <div className="collapse navbar-collapse" id="navbarSupportedContent">
               <ul className="navbar-nav mr-auto">
                 <li className="nav-item active">
-                  <Link to={'/photos'} className="nav-link" style={{color: "#C4CFCF", fontWeight: "600"}}>Photos <span className="sr-only">(current)</span></Link>
+                  <Link to={`/${this.props.url}/photos`} className="nav-link" style={{color: "#C4CFCF", fontWeight: "600"}}>Photos <span className="sr-only">(current)</span></Link>
                 </li>
                 <li className="nav-item">
-                  <Link to={'/albums'} className="nav-link" style={{color: "#C4CFCF", fontWeight: "600"}}>Albums</Link>
+                  <Link to={`/${this.props.url}/albums`} className="nav-link" style={{color: "#C4CFCF", fontWeight: "600"}}>Albums</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to={'/albums/new'} className="nav-link" style={{color: "#C4CFCF", fontWeight: "600"}}>Create Albums</Link>
+                  <Link to={`/${this.props.url}/albums/new`} className="nav-link" style={{color: "#C4CFCF", fontWeight: "600"}}>Create Albums</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to={'/uploads'} className="nav-link" style={{color: "#C4CFCF", fontWeight: "600"}}>Upload Photos</Link>
+                  <Link to={`/${this.props.url}/uploads`} className="nav-link" style={{color: "#C4CFCF", fontWeight: "600"}}>Upload Photos</Link>
                 </li>
               </ul>
               <button
                 style={{margin: "0 1%"}}
                 className="btn btn-outline-info my-2 my-sm-0"
                 type="button"
-                onClick={() => (this.handleRedirect('/account'))}
+                onClick={() => (this.handleRedirect(`/${this.props.url}/account`))}
                 >MY ACCOUNT</button>
                 <button
                   style={{margin: "0 2%"}}

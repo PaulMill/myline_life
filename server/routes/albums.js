@@ -3,16 +3,29 @@
 const boom = require('boom')
 const express = require('express')
 const knex = require('../../knex')
-const { camelizeKeys, decamelizeKeys } = require('humps')
+const { decamelizeKeys, camelizeKeys } = require('humps')
+const jwt = require('jsonwebtoken')
 
 const router = express.Router()
 
+const authorize = function(req, res, next) {
+  const token = req.cookies.token
+  jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+    if (err) {
+      return next(boom.create(401, 'Unauthorized'))
+    }
+    req.token = decoded
+    next()
+  })
+}
+
 // <============== route to get all albums  ==================>
-router.get('/', (req, res) => {
+router.get('/', authorize, (req, res) => {
   knex('albums')
     .select(
       'albums.id',
       'users.name as owner_name',
+      'albums.owner_id',
       'photos.url_photo_small as index_photo',
       'albums.name',
       'albums.album_date',
@@ -22,10 +35,12 @@ router.get('/', (req, res) => {
       'albums.created_at',
       'albums.updated_at'
     )
+    .where('user_id', req.token.userId)
     .orderBy('album_date', 'DESC')
     .innerJoin('users', 'albums.owner_id', 'users.id')
     .innerJoin('photos', 'albums.index_photo', 'photos.id')
     .then((albums) => {
+      console.log(albums);
       res.send(camelizeKeys(albums))
     })
     .catch((err) => console.log(err))
@@ -48,8 +63,9 @@ router.get('/queries', (req, res, next) => {
 
 // <============== route to create Album ==================>
 
-router.post('/new', (req, res, next) => {
-  const {name, albumDate, albumType, isPublic, description, indexPhoto, ownerId, albumPhotos} = req.body
+router.post('/new', authorize, (req, res, next) => {
+  const {name, albumDate, albumType, isPublic, description, indexPhoto, albumPhotos} = req.body
+  const ownerId = req.token.userId
   const insertRequest = decamelizeKeys({ name, albumDate, albumType, isPublic, description, indexPhoto, ownerId})
 
   knex('users')
@@ -103,10 +119,11 @@ router.get('/show/:id', (req, res, next) => {
     })
 })
 
-router.get('/photos/:albumId', (req, res, next) => {
+router.get('/photos/:albumId', authorize, (req, res, next) => {
   const id = req.params.albumId
     knex('photos_albums')
       .select('*')
+      .where('user_id', req.token.userId)
       .where('album_id', id)
       .innerJoin('photos', 'photos_albums.photo_id', 'photos.id')
       .then((rows) => {
@@ -118,4 +135,14 @@ router.get('/photos/:albumId', (req, res, next) => {
       })
 })
 
+router.patch('/patch/likes', (req, res, next) => {
+  const {id, likes} = req.body
+  console.log(likes);
+    knex('albums')
+      .where('id', id)
+      .update({likes}, '*')
+      .then((data) => {
+        console.log(data);
+      })
+})
 module.exports = router

@@ -49,9 +49,14 @@ router.post('/', (req, res, next) => {
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
         secure: router.get('env') === 'production'
       });
+      const url = [user.url]
+      res.cookie('url', url, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
+        secure: router.get('env') === 'production'
+      });
 
       delete user.hashedPassword
-      delete user.regUrl
       delete user.isRegistred
 
       res.send(user)
@@ -72,7 +77,8 @@ router.get('/', (req, res) => {
     res.send({
       userName: req.cookies.userName[0],
       userId: payload.userId,
-      isLoggedIn: true
+      isLoggedIn: true,
+      url: req.cookies.url[0]
     })
   })
 })

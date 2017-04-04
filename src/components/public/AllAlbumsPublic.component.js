@@ -4,7 +4,7 @@ import moment from 'moment'
 import { Link } from 'react-router'
 
 
-export default class AllAlbums extends Component {
+export default class AllAlbumsPublic extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -14,7 +14,7 @@ export default class AllAlbums extends Component {
     this.handleDatePhoto = this.handleDatePhoto.bind(this)
   }
   componentWillMount(){
-    axios.get('/api/albums/')
+    axios.get('api/albums/')
       .then((res) => {
         this.setState({albums: res.data})
       })
@@ -31,7 +31,7 @@ export default class AllAlbums extends Component {
         <div className="row m-t-md">
           {this.state.albums.map((el, indx) => (
               <div className="col-xs-12 col-md-4" style={{margin: '1% 0'}} key={el.id} >
-                <Link to={`/${this.props.url}/album/${el.id}`} activeClassName="active">
+                <Link to={`/album/${el.id}`} activeClassName="active">
                 <article className={`card card-inverse animated cardAlbumsAll fadeInLeft text-center`}>
                   <img className="img-responsive" src={el.indexPhoto} alt="index-photo-of-album" style={{maxHeight: "200px"}} />
                   <div className="card-img-overlay cardAlbumsAll">

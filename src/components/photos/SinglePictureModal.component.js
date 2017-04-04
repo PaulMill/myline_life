@@ -5,7 +5,6 @@ export default class SinglePictureModal extends Component {
     super(props)
   }
   render(){
-    console.log(this.props);
     return(
       <div>
         <div className="modal fade bd-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

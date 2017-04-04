@@ -7,7 +7,8 @@ const multer = require('multer')
 const multerS3 = require('multer-s3')
 const sharp = require('sharp')
 const knex = require('../../knex')
-const { camelizeKeys } = require('humps')
+const { decamelizeKeys, camelizeKeys } = require('humps')
+const jwt = require('jsonwebtoken')
 
 const uploadMulter = multer()
 
@@ -18,15 +19,27 @@ const s3 = new AWS.S3()
 //setup bucket name for AWS S3
 const myBucket = 'myline.life'
 
-router.post('/photos', uploadMulter.array('photos[]'), (req, res) => {
+const authorize = function(req, res, next) {
+  const token = req.cookies.token;
+
+  jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+    if (err) {
+      return next(boom.create(401, 'Unauthorized'));
+    }
+
+    req.token = decoded;
+
+    next();
+  });
+};
+
+router.post('/photos', authorize, uploadMulter.array('photos[]'), (req, res, next) => {
+
 
   let urlPhotoSmall = ''
   let urlPhotoSized = ''
   let urlPhotoFull = ''
-  let photoDate = ''
-  let cameraModel = ''
-  let namePhoto = ''
-  let doneUploads = [];
+  let doneUploads = []
 
   function uploaderS3(fileB, ispublic, indexFile, callback){
       s3.upload({
@@ -52,29 +65,15 @@ router.post('/photos', uploadMulter.array('photos[]'), (req, res) => {
        }
      })
    }
-  for (const file of req.files) {
-    const ExifImage = require('exif').ExifImage;
-      try {
-          new ExifImage({ image : file.buffer }, function (error, exifData) {
-              if (error)
-                  console.log('Error: '+error.message)
-              else{
-                  cameraModel = `${exifData.image.Make} ${exifData.image.Model}`
-                  const date = exifData.exif.CreateDate
-                  const dateOfPhoto = date.replace(/^(\d{4}):(\d{2}):(\d{2})/, '$1-$2-$3')
-                  photoDate = Date.parse(dateOfPhoto)
-                  namePhoto = file.originalname
-                }
-          })
-      } catch (error) {
-          console.log('Error: ' + error.message)
-      }
-    const p = new Promise ((resolve, reject) => {
+
+    // for (const file of req.files) {
+    const allPromises = req.files.map((file) => {
+      return new Promise ((resolve, reject) => {
+
           const image = sharp(file.buffer)
               image
               .metadata()
               .then(function(metadata) { // resizing for large size and saving to folder lg
-                console.log(1);
                 return image
                 .resize(Math.round(metadata.width / 3))
                 .withMetadata()
@@ -92,7 +91,6 @@ router.post('/photos', uploadMulter.array('photos[]'), (req, res) => {
                 })
               })
               .then(function() { // resizing for medium size and saving to folder md
-                console.log(2);
                 return image
                 .withMetadata()
                 .resize(1328, 747)
@@ -110,7 +108,6 @@ router.post('/photos', uploadMulter.array('photos[]'), (req, res) => {
                 })
               })
               .then(function() { // resizing for small size and saving to folder sm
-                console.log(3);
                 return image
                 .resize(400, 225)
                 .withMetadata()
@@ -128,36 +125,46 @@ router.post('/photos', uploadMulter.array('photos[]'), (req, res) => {
                 })
               })
               .then(() => {
-                resolve({urlPhotoSmall, urlPhotoSized, urlPhotoFull});
+                const ExifImage = require('exif').ExifImage
+                try {
+                  new ExifImage({ image : file.buffer }, function (error, exifData) {
+                    if (error)
+                    console.log('Error: '+error.message)
+                    else{
+                      const cameraModel = `${exifData.image.Make} ${exifData.image.Model}`
+                      const date = exifData.exif.CreateDate
+                      const dateOfPhoto = date.replace(/^(\d{4}):(\d{2}):(\d{2})/, '$1-$2-$3')
+                      const photoDate = Date.parse(dateOfPhoto)
+                      const name = file.originalname
+                      const userId = req.token.userId
+                      resolve({urlPhotoSmall, urlPhotoSized, urlPhotoFull, photoDate, cameraModel, name, userId});
+                    }
+                  })
+                }
+                catch (error) {
+                  console.log('Error: ' + error.message)
+                }
               })
               .catch((err) => {
                 console.error(err)
               })
       })
-      p.then((obj) => {
-        console.log(4);
-        return knex('photos')
-          .insert({
-            name: namePhoto,
-            url_photo_full: obj.urlPhotoFull,
-            url_photo_sized: obj.urlPhotoSized,
-            url_photo_small: obj.urlPhotoSmall,
-            photo_date: photoDate,
-            camera_model: cameraModel,
-            user_id: 1
-          }, '*')
+    })
+    console.log(allPromises);
+    Promise.all(allPromises)
+      .then((objects) => {
+        console.log('ALL promises done', objects);
+        knex('photos')
+          .insert(decamelizeKeys(objects), '*')
           .then((data) => {
-            console.log(data[0])
-            const photo = camelizeKeys(data[0])
-            doneUploads.push(photo)
+            console.log('did work?', data);
+            res.send('all good')
           })
-          .catch((err) => console.error(err))
+          .catch((err) => {
+            console.log(err);
+            next(boom.create(400, err))
+          })
         })
-    }
-    if(req.files.length === doneUploads.length){
-      res.send(doneUploads)
-    }
-    console.log(doneUploads)
 })
 
 module.exports = router;

@@ -64,7 +64,7 @@ export default class CreateAlbum extends Component {
     axios.post('/api/albums/new', request)
       .then((res) => {
         if(res.status === 200){
-          return browserHistory.push('/albums')
+          return browserHistory.push(`/${this.props.url}/albums`)
         }
         console.log('status', res.status, 'data', res.data);
       })
@@ -158,7 +158,7 @@ export default class CreateAlbum extends Component {
                     name="albumType"
                     value="moments"
                     onChange={this.handleState}
-                  /> Moments
+                  /> Life events
                 </label>
               </div>
             </div>
@@ -192,7 +192,7 @@ export default class CreateAlbum extends Component {
                   className="btn btn-success btn-lg btn-block"
                   onClick={this.handleCreateAlbum}
                 >CREATE ALBUM</button>
-              : <div style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem", color: "red", margin: '2% 0'}}><strong>You have to fill all fields than take photos for album and choose cover photo</strong></div>
+              : <div style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem", color: "red", margin: '2% 0'}}><strong>You have to fill all the fields, then select photos for the album and choose a cover photo</strong></div>
             }
           </div>
         </div>
@@ -208,7 +208,7 @@ export default class CreateAlbum extends Component {
                     style={{maxHeight: "140px"}}
                   />
                   <div className="card-block">
-                    <p className="card-title">Date: <strong>{this.handleDatePhoto(el.photoDate)}</strong></p>
+                    <p className="card-title">Date: {this.handleDatePhoto(el.photoDate)}</p>
                     <p className="card-text">{el.description}</p>
                   </div>
                   <div className="card-footer" style={{backgroundColor: "#313638"}}>

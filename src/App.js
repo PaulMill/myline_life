@@ -11,21 +11,23 @@ class App extends Component {
         isLoggedIn: false,
         userId: 0,
         userName: '',
-        photosToShow: []
+        url: ''
       }
-      this.editParentState = this.editParentState.bind(this)
+      this.setUserState = this.setUserState.bind(this)
     }
-    editParentState(newState) {
-      this.setState(newState)
+    setUserState(newstate){
+      this.setState(newstate)
     }
     componentWillMount(){
       axios.get('/api/tokens')
         .then((res) => {
           if (!res.data) {
-            return console.log(res.data);
+            return
           }
-          console.log(res.data)
-          this.setState(res.data)
+          return this.setState(res.data)
+        })
+        .then(() => {
+          return
         })
         .catch(err => {
           console.error(err);
@@ -33,12 +35,12 @@ class App extends Component {
     }
 
   render() {
-    const { isLoggedIn, userId, userName, photosToShow } = this.state
+    const { isLoggedIn, userId, userName, url } = this.state
     return (
       <div>
-        <NavBar login={isLoggedIn}/>
+        <NavBar login={isLoggedIn} url={url} name={userName} id={userId}/>
           { this.props.children
-            ? React.cloneElement(this.props.children, {photosToShow, isLoggedIn, userId, userName, editParentState: this.editParentState})
+            ? React.cloneElement(this.props.children, {url, isLoggedIn, userId, userName, setUserState: this.setUserState})
             : null
           }
           {this.state.isLoggedIn

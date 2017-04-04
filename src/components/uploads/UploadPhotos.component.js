@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
+import { browserHistory } from 'react-router'
 
 
 export default class UploadPhotos extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      ownerID: 1,
-      ownerName: 'PAUL M',
-      name: "Photo",
       dateOfPhoto: '',
       camera: '',
       files: []
@@ -36,6 +34,7 @@ export default class UploadPhotos extends Component {
         axios.post('/api/upload/photos', formData)
         .then((res) => {
           console.log(res.data)
+          browserHistory.push(`/${this.props.url}/photos`)
         })
         .catch((err) => {
           console.error(err)

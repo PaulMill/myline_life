@@ -21,6 +21,10 @@
 a {
   text-decoration: none;
 }
+a.disabled {
+   pointer-events: none;
+   cursor: default;
+}
 .fadeCardBgr{
   background: rgb(205,242,198);
 }
@@ -28,7 +32,6 @@ a {
   background-color: rgba(70,70,70,0.4);
   border-color: rgba(70,70,70,0.4);
 }
-
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }

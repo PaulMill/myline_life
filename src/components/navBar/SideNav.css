@@ -149,4 +149,9 @@
     .main-content-side-nav {
         margin-left: 220px;
     }
+    .likes-big {
+      margin-left: 8%;
+      color: #AE0000;
+      font-weight: 700;
+    }
 }

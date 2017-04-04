@@ -27,14 +27,7 @@ export default class Login extends Component {
     axios.post('/api/tokens', request, { validateStatus: (status) => status < 500})
       .then((row) => {
         if (row.status < 400) {
-          // const user = {
-          //   isLoggedIn: true,
-          //   userId: row.data.id,
-          //   userName: `${row.data.firstName} ${row.data.lastName}`
-          // }
-          // this.props.editParentState(user)
-          browserHistory.push('/photos')
-          location.reload(true)
+          browserHistory.push(`/${row.data.url}/photos`)
         }
         else {
           alert("Message from server: "  + row.data)

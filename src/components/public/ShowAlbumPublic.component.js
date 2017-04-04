@@ -4,7 +4,7 @@ import moment from 'moment'
 import { browserHistory } from 'react-router'
 import SinglePictureModal from '../photos/SinglePictureModal.component'
 
-export default class ShowAlbum extends Component {
+export default class ShowAlbumPublic extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -68,7 +68,7 @@ export default class ShowAlbum extends Component {
   }
   showPhotosSlides(event){
     event.preventDefault()
-    browserHistory.push(`/${this.props.url}/album/show/${this.state.albumId}`)
+    browserHistory.push(`/album/show/${this.state.albumId}`)
   }
   handleIsPublic(){
     if(this.state.isPublic){
