@@ -129,6 +129,7 @@ router.post('/photos', authorize, uploadMulter.array('photos[]'), (req, res, nex
                     else{
                       const cameraModel = `${exifData.image.Make} ${exifData.image.Model}`
                       const date = exifData.exif.CreateDate
+                      console.log('date', date);
                       const dateOfPhoto = date.replace(/^(\d{4}):(\d{2}):(\d{2})/, '$1-$2-$3')
                       const photoDate = Date.parse(dateOfPhoto)
                       const name = file.originalname
