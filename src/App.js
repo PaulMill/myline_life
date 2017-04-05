@@ -56,12 +56,12 @@ class App extends Component {
                     <div style={{textAlign: "center"}}>
                       <img src={logo} className="App-logo" alt="logo" style={{marginBottom: "4%", fill: "#b84818"}} />
                     </div>
-                    <h1 style={styleTextH1}>It is your</h1>
-                    <h1 style={styleTextH1}>personal </h1>
+                    <h1 style={styleTextH1}></h1>
+                    <h1 style={styleTextH1}></h1>
                     <h1 style={styleTextH0}>{`{ thebook.photos }`}</h1>
                     <div style={{marginTop: "8%"}}>
-                      <h3 style={{fontStyle: 'italic', textAlign: 'center', color: "#C4CFCF", fontWeight: 'bold'}}>Organize, Share, Manage</h3>
-                      <h3 style={{fontStyle: 'italic', textAlign: 'center', color: "#C4CFCF", fontWeight: 'bold'}}>and Keep private all your photos in one place</h3><br />
+                      <h3 style={{fontStyle: 'italic', textAlign: 'center', color: "#C4CFCF", fontWeight: 'bold'}}>Organize, Share, & Manage</h3>
+                      <h3 style={{fontStyle: 'italic', textAlign: 'center', color: "#C4CFCF", fontWeight: 'bold'}}>All of Your Photos in One Place</h3><br />
                     </div>
                   </div>
                 </div>

@@ -84,7 +84,7 @@ export default class UploadPhotos extends Component {
               textAlign: "center"
               }}
             >
-              <div>Drag and drop here pictures what you want to upload or click button below to choose pictures</div>
+              <div>Drag and drop the photos that you want to upload here!</div>
           </Dropzone>
           <button type="button" className="btn btn-outline-primary" style={{margin: "5% 7%"}} onClick={this.onOpenClick}>Choose files to upload</button>
           </div>
