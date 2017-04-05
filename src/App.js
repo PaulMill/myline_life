@@ -3,7 +3,7 @@ import './App.css';
 import NavBar from './components/navBar/NavBar.component'
 import axios from 'axios'
 import logo from './logo.svg'
-import { browserHistory } from 'react-router'
+// import { browserHistory } from 'react-router'
 
 class App extends Component {
   constructor(props) {

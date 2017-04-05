@@ -27,7 +27,7 @@ export default class UserInterface extends Component {
           <div className="tab-content card">
             <div className="tab-pane fade in show active" id="panel1" role="tabpanel">
                 <br />
-                <MySettings />
+                <MySettings userName={this.props.userName} userId={this.props.userId}/>
             </div>
             <div className="tab-pane fade" id="panel2" role="tabpanel">
                 <br />
@@ -35,7 +35,7 @@ export default class UserInterface extends Component {
             </div>
             <div className="tab-pane fade" id="panel3" role="tabpanel">
                 <br />
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil odit magnam minima, soluta doloribus reiciendis molestiae placeat unde eos molestias. Quisquam aperiam, pariatur. Tempora, placeat ratione porro voluptate odit minima.</p>
+                <p>To be continued(under construction)</p>
             </div>
           </div>
         </div>

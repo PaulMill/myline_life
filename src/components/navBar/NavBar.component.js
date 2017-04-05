@@ -75,6 +75,7 @@ export default class NavBar extends Component {
               : <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item active">
+                    <Link to="/" className="nav-link" style={{color: "#C4CFCF", fontWeight: "600"}}>Home <span className="sr-only">(current)</span></Link>
                   </li>
                 </ul>
                 <button

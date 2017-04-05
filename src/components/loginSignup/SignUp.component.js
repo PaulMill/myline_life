@@ -39,6 +39,7 @@ formValidation(event){
 render(){
   return(
     <div className="container" style={{marginTop: "10%", color: "#C4CFCF"}}>
+
       <form className="form-horizontal" role="form" method="POST" action="/register">
           <div className="row">
               <div className="col-md-3 col-sm-0"></div>
@@ -69,11 +70,11 @@ render(){
                   </div>
               </div>
               <div className="col-md-3 col-sm-2">
-                  <div className="form-control-feedback">
+                  {/* <div className="form-control-feedback">
                           <span className="text-danger align-middle">
-                              {/* <!-- Put name validation error messages here --> */}
+                              <!-- Put name validation error messages here -->
                           </span>
-                  </div>
+                  </div> */}
               </div>
           </div>
           <div className="row">
@@ -98,11 +99,11 @@ render(){
                   </div>
               </div>
               <div className="col-md-3 col-sm-2">
-                  <div className="form-control-feedback">
+                  {/* <div className="form-control-feedback">
                           <span className="text-danger align-middle">
-                              {/* <!-- Put e-mail validation error messages here --> */}
+                              <!-- Put e-mail validation error messages here -->
                           </span>
-                  </div>
+                  </div> */}
               </div>
           </div>
           <div className="row">
@@ -126,11 +127,11 @@ render(){
                   </div>
               </div>
               <div className="col-md-3 col-sm-2">
-                  <div className="form-control-feedback">
+                  {/* <div className="form-control-feedback">
                           <span className="text-danger align-middle">
-                              {/* <!-- Put e-mail validation error messages here --> */}
+                              <!-- Put e-mail validation error messages here -->
                           </span>
-                  </div>
+                  </div> */}
               </div>
           </div>
           <div className="row">
@@ -138,7 +139,7 @@ render(){
                   <label htmlFor="password">Password</label>
               </div>
               <div className="col-md-6 col-sm-8">
-                  <div className="form-group has-success">
+                  <div className="form-group">
                       <div className="input-group mb-2 mr-sm-2 mb-sm-0">
                           <div className="input-group-addon" style={{width: "2.6rem"}}><i className="fa fa-key"></i></div>
                           <input
@@ -154,11 +155,11 @@ render(){
                   </div>
               </div>
               <div className="col-md-3 col-sm-2">
-                  <div className="form-control-feedback">
+                  {/* <div className="form-control-feedback">
                           <span className="text-danger align-middle">
                               <i className="fa fa-close"> Error Message</i>
                           </span>
-                  </div>
+                  </div> */}
               </div>
           </div>
           <div className="row">

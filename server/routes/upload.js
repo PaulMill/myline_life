@@ -16,30 +16,30 @@ const uploadMulter = multer()
 const router = express.Router()
 
 const s3 = new AWS.S3()
-
 //setup bucket name for AWS S3
-const myBucket = 'myline.life'
+const myBucket = 'thebook.photos'
 
 const authorize = function(req, res, next) {
-  const token = req.cookies.token;
+  const token = req.cookies.token
 
   jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
     if (err) {
-      return next(boom.create(401, 'Unauthorized'));
+      return next(boom.create(401, 'Unauthorized'))
     }
 
-    req.token = decoded;
+    req.token = decoded
 
-    next();
-  });
-};
+    next()
+  })
+}
 
 router.post('/photos', authorize, uploadMulter.array('photos[]'), (req, res, next) => {
+
 
   function uploaderS3(fileB, ispublic, indexFile, uuid, callback){
       s3.upload({
        Bucket: myBucket,
-       Key: `${indexFile}/${indexFile}_${uuid}`,
+       Key: `ph_${req.token.userId}/${indexFile}/${indexFile}_${uuid}`,
        Body: fileB,
        ACL: ispublic
      }, (err, data) => {

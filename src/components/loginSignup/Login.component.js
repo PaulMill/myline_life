@@ -53,7 +53,7 @@ export default class Login extends Component {
               <div className="row">
                   <div className="col-md-3"></div>
                   <div className="col-md-6">
-                      <div className="form-group has-danger">
+                      <div className="form-group">
                           <label className="sr-only" htmlFor="email">E-Mail Address</label>
                           <div className="input-group mb-2 mr-sm-2 mb-sm-0">
                               <div className="input-group-addon" style={{width: "2.6rem"}}><i className="fa fa-at"></i></div>
@@ -70,11 +70,11 @@ export default class Login extends Component {
                       </div>
                   </div>
                   <div className="col-md-3">
-                      <div className="form-control-feedback">
+                      {/* <div className="form-control-feedback">
                           <span className="text-danger align-middle">
                               <i className="fa fa-close"></i>error message
                           </span>
-                      </div>
+                      </div> */}
                   </div>
               </div>
               <div className="row">
@@ -97,11 +97,11 @@ export default class Login extends Component {
                       </div>
                   </div>
                   <div className="col-md-3">
-                      <div className="form-control-feedback">
+                      {/* <div className="form-control-feedback">
                           <span className="text-danger align-middle">
-                          {/* <!-- Put password error message here --> */}
+                          <!-- Put password error message here -->
                           </span>
-                      </div>
+                      </div> */}
                   </div>
               </div>
               <div className="row">

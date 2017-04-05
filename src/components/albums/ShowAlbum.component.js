@@ -111,6 +111,7 @@ export default class ShowAlbum extends Component {
     })
   }
   render(){
+    console.log(this.state.albumId);
     return (
       <div>
         {this.state.showModalPhoto
@@ -136,7 +137,7 @@ export default class ShowAlbum extends Component {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href={`/${this.props.url}/album/modify/${this.props.params.id}`}>
                   <span><i className="fa fa-cogs"></i></span>
                   <span>MODIFY</span>
                 </a>

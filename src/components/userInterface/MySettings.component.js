@@ -13,6 +13,7 @@ export default class MySettings extends Component {
     this.handleState = this.handleState.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
+
   handleState(event){
     this.setState({[event.target.name]: event.target.value})
   }
@@ -30,10 +31,11 @@ export default class MySettings extends Component {
     }
     axios.patch('api/users/updates', request)
       .then((response) => {
-
         console.log(response);
       })
       .catch(err => console.error(err))
+  }
+  formValidator(){
 
   }
   render(){
@@ -45,7 +47,6 @@ export default class MySettings extends Component {
               <h5 className="mb-0">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                   Change name {this.props.userName}
-                  {/* <span style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem"}}>Click to change name</span> */}
                 </a>
               </h5>
             </div>
@@ -55,7 +56,7 @@ export default class MySettings extends Component {
                 <div className="row">
                     <div className="col-md-3"></div>
                     <div className="col-md-6">
-                        <div className="form-group has-danger">
+                        <div className="form-group">
                             <label className="sr-only" htmlFor="email">E-Mail Address</label>
                             <div className="input-group mb-2 mr-sm-2 mb-sm-0">
                                 <div className="input-group-addon" style={{width: "2.6rem"}}><i className="fa fa-user"></i></div>
@@ -71,11 +72,11 @@ export default class MySettings extends Component {
                         </div>
                     </div>
                     <div className="col-md-3">
-                        <div className="form-control-feedback">
+                        {/* <div className="form-control-feedback">
                             <span className="text-danger align-middle">
-                                <i className="fa fa-close"></i>error message
+                                <i className="fa fa-close"></i>{this.state.errorMessageName}
                             </span>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="row" style={{paddingTop: "1rem"}}>
@@ -98,7 +99,6 @@ export default class MySettings extends Component {
               <h5 className="mb-0">
                 <a className="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                   Change email {this.props.email}
-                  {/* <span style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem"}}>Click to change email</span> */}
                 </a>
               </h5>
             </div>
@@ -107,7 +107,7 @@ export default class MySettings extends Component {
                 <div className="row">
                     <div className="col-md-3"></div>
                     <div className="col-md-6">
-                        <div className="form-group has-success">
+                        <div className="form-group">
                             <label className="sr-only" htmlFor="email">E-Mail Address</label>
                             <div className="input-group mb-2 mr-sm-2 mb-sm-0">
                                 <div className="input-group-addon" style={{width: "2.6rem"}}><i className="fa fa-at"></i></div>
@@ -123,11 +123,11 @@ export default class MySettings extends Component {
                         </div>
                     </div>
                     <div className="col-md-3">
-                        <div className="form-control-feedback">
+                        {/* <div className="form-control-feedback">
                             <span className="text-danger align-middle">
-                                <i className="fa fa-close"></i>error message
+                                <i className="fa fa-close"></i>{this.state.errorMessageEmail}
                             </span>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="row" style={{paddingTop: "1rem"}}>
@@ -149,7 +149,7 @@ export default class MySettings extends Component {
             <div className="card-header" role="tab" id="headingThree">
               <h5 className="mb-0">
                 <a className="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                  Change password {this.props.password}  
+                  Change password {this.props.password}
                   {/* <span style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem"}}>Click to change password</span> */}
                 </a>
               </h5>
@@ -159,7 +159,7 @@ export default class MySettings extends Component {
                 <div className="row">
                     <div className="col-md-3"></div>
                     <div className="col-md-6">
-                        <div className="form-group has-danger">
+                        <div className="form-group">
                             <label className="sr-only" htmlFor="email">Password</label>
                             <div className="input-group mb-2 mr-sm-2 mb-sm-0">
                                 <div className="input-group-addon" style={{width: "2.6rem"}}><i className="fa fa-key"></i></div>
@@ -176,17 +176,17 @@ export default class MySettings extends Component {
                         </div>
                     </div>
                     <div className="col-md-3">
-                        <div className="form-control-feedback">
+                        {/* <div className="form-control-feedback">
                             <span className="text-danger align-middle">
                                 <i className="fa fa-close"></i>error message
                             </span>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-md-3"></div>
                     <div className="col-md-6">
-                        <div className="form-group has-danger">
+                        <div className="form-group">
                             <label className="sr-only" htmlFor="email">Confirm Password</label>
                             <div className="input-group mb-2 mr-sm-2 mb-sm-0">
                                 <div className="input-group-addon" style={{width: "2.6rem"}}><i className="fa fa-key"></i></div>
@@ -204,11 +204,11 @@ export default class MySettings extends Component {
                         </div>
                     </div>
                     <div className="col-md-3">
-                        <div className="form-control-feedback">
+                        {/* <div className="form-control-feedback">
                             <span className="text-danger align-middle">
                                 <i className="fa fa-close"></i>error message
                             </span>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="row" style={{paddingTop: "1rem"}}>

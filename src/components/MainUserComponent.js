@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Link, browserHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 
 export default class MainUserComponent extends Component {
   constructor(props){
@@ -19,7 +19,6 @@ export default class MainUserComponent extends Component {
           if (!this.props.params.userurl) {
             return console.log('Sorry page was broken')
           }
-          console.log(this.props);
           return browserHistory.push(`/${this.props.params.userurl}/public`)
         }
         else {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Router, browserHistory, IndexRoute } from 'react-router'
+import { Route, Router, browserHistory} from 'react-router'
 import App from './App'
 import UploadPhotos from './components/uploads/UploadPhotos.component'
 import Login from './components/loginSignup/Login.component'
@@ -13,7 +13,7 @@ import AllAlbums from './components/albums/AllAlbums.component'
 import ShowPhotos from './components/photos/ShowPhotos.component'
 import ShowAlbum from './components/albums/ShowAlbum.component'
 import ShowPhotosFromAlbum from './components/photos/ShowPhotosFromAlbum.component'
-import MainPage from './components/MainPage.component'
+import ModifyAlbum from './components/albums/ModifyAlbum.component'
 import AllPhotosPublic from './components/public/AllPhotosPublic.component'
 import MainPagePublic from './components/public/MainPagePublic.component'
 import AllAlbumsPublic from './components/public/AllAlbumsPublic.component'
@@ -37,8 +37,9 @@ export default class Routes extends Component {
             <Route path='/:userurl/albums/new' component={CreateAlbum} />
             <Route path='/:userurl/albums' component={AllAlbums} />
             <Route path='/:userurl/photos/:id' component={ShowPhotos} />
-            <Route path='/:userurl/album/show/:id' component={ShowPhotosFromAlbum} />
             <Route path='/:userurl/album/:id' component={ShowAlbum} />
+            <Route path='/:userurl/album/show/:id' component={ShowPhotosFromAlbum} />
+            <Route path='/:userurl/album/modify/:id' component={ModifyAlbum} />
             <Route path='/:userurl/public' component={MainPagePublic}>
               <Route path='/:userurl/public/photos' component={AllPhotosPublic} />
               <Route path='/:userurl/public/albums' component={AllAlbumsPublic} />

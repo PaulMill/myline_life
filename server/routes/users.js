@@ -7,10 +7,24 @@ const jwt = require('jsonwebtoken')
 const knex = require('../../knex')
 const nodemailer = require('nodemailer')
 const sha256 = require('sha256')
-const { camelizeKeys } = require('humps');
+const { decamelizeKeys, camelizeKeys } = require('humps')
 
 // eslint-disable-next-line new-cap
 const router = express.Router()
+
+const authorize = function(req, res, next) {
+  const token = req.cookies.token
+
+  jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+    if (err) {
+      return next(boom.create(401, 'Unauthorized'))
+    }
+
+    req.token = decoded
+
+    next()
+  })
+}
 
 // <============== route to send lik when password forgot to user  ==================>
 router.post('/forgot', (req, res, next) => {
@@ -193,10 +207,11 @@ router.post('/newuser', (req, res, next) => {
 
 // <============== route for updating user settings from user account  ==================>
 
-router.patch('/updates', (req, res, next) => {
+router.patch('/updates', authorize, (req, res, next) => {
   const {
-    id, email, name, password
-  } = req.body;
+   email, name, password
+  } = req.body
+  const id = req.token.userId
 
   if (name || !!name.trim()) {
     return updateName(name)
@@ -282,7 +297,7 @@ router.patch('/updates', (req, res, next) => {
 
 // <============== route to get all users from admin panel ==================>
 
-router.get('/users', (req, res, next) => {
+router.get('/users', authorize, (req, res, next) => {
   knex('users')
     .orderBy('email')
     .then((users) => {

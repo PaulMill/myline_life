@@ -40,7 +40,6 @@ router.get('/', authorize, (req, res) => {
     .innerJoin('users', 'albums.owner_id', 'users.id')
     .innerJoin('photos', 'albums.index_photo', 'photos.id')
     .then((albums) => {
-      console.log(albums);
       res.send(camelizeKeys(albums))
     })
     .catch((err) => console.log(err))
@@ -52,7 +51,8 @@ router.get('/queries', (req, res, next) => {
   const fromDate = parseInt(req.query.fromDate)
   const toDate = parseInt(req.query.toDate)
   knex('albums')
-    .where('album_date', '>', fromDate)
+    .where('owner_id', req.token.userId)
+    .andWhere('album_date', '>', fromDate)
     .andWhere('album_date', '<', toDate)
     .orderBy('album_date', 'DESC')
     .then((albums) => {
