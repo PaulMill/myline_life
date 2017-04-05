@@ -3,6 +3,7 @@ import axios from 'axios'
 import moment from 'moment'
 import { browserHistory } from 'react-router'
 import SinglePictureModal from '../photos/SinglePictureModal.component'
+import ShareAlbum from '../share/ShareAlbum.component'
 
 export default class ShowAlbum extends Component {
   constructor(props){
@@ -19,6 +20,7 @@ export default class ShowAlbum extends Component {
       indexPhotoURL: '',
       albumLikes: 0,
       showModalPhoto: false,
+      showModalShare: false,
       showModalPhotoURL: ''
     }
     this.handleState = this.handleState.bind(this)
@@ -26,6 +28,8 @@ export default class ShowAlbum extends Component {
     this.handleIsPublic = this.handleIsPublic.bind(this)
     this.showPhotosSlides = this.showPhotosSlides.bind(this)
     this.handleLikes = this.handleLikes.bind(this)
+    this.toggleModalPhotos = this.toggleModalPhotos.bind(this)
+    this.toggleModalShare = this.toggleModalShare.bind(this)
   }
   componentWillMount(){
     const newState = {}
@@ -37,7 +41,6 @@ export default class ShowAlbum extends Component {
       .catch((err) => (console.error(err)))
     })
     p.then((album) => {
-      console.log(album)
       const albumId = album.id
       axios.get(`/api/albums/photos/${albumId}`)
         .then((res) => {
@@ -76,13 +79,16 @@ export default class ShowAlbum extends Component {
     }
     return 'Private view only'
   }
-  toggleModal(url){
+  toggleModalPhotos(url){
     this.setState({showModalPhoto: true, showModalPhotoURL: url})
   }
+  toggleModalShare(){
+    this.setState({showModalShare: true})
+  }
+
   handleLikes(event){
     event.preventDefault()
     const p = new Promise((resolve, reject) => {
-      console.log(1);
       if(!this.state.albumLikes.length){
         this.setState({albumLikes: 1, isLiked: 'disabled'})
       }
@@ -97,7 +103,6 @@ export default class ShowAlbum extends Component {
     })
     p.then(() => {
       const request = {likes: this.state.albumLikes, id: this.state.albumId}
-      console.log(request);
       axios.patch('/api/albums/patch/likes', request)
       .then((res) => {
         console.log(res.data);
@@ -112,11 +117,20 @@ export default class ShowAlbum extends Component {
           ? <div><SinglePictureModal url={this.state.showModalPhotoURL} /> </div>
           : null
         }
+        {this.state.showModalShare
+          ? <div><ShareAlbum albumId={this.state.albumId} /> </div>
+          : null
+        }
         <div className="side-nav-menu" style={{marginTop: "4%"}}>
           <nav>
             <ul>
               <li>
-                <a href="#">
+                <a
+                  href="javascript:void(0)"
+                    data-toggle="modal"
+                    data-target=".bd-modal-form-share"
+                    onClick={this.toggleModalShare}
+                  >
                   <span><i className="fa fa-share-alt"></i></span>
                   <span>SHARE</span>
                 </a>
@@ -202,7 +216,7 @@ export default class ShowAlbum extends Component {
                         style={{margin: "0 3%"}}
                         data-toggle="modal"
                         data-target=".bd-example-modal-lg"
-                        onClick={() => this.toggleModal(el.urlPhotoSized)}
+                        onClick={() => this.toggleModalPhotos(el.urlPhotoSized)}
                       >Show single</button>
                       <button
                         type="button"

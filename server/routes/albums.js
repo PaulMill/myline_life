@@ -92,7 +92,7 @@ router.post('/new', authorize, (req, res, next) => {
     .catch(err => (console.error(err)))
 })
 
-router.get('/show/:id', (req, res, next) => {
+router.get('/show/:id', authorize, (req, res, next) => {
   const id = req.params.id
   knex('albums')
     .select(
@@ -100,13 +100,14 @@ router.get('/show/:id', (req, res, next) => {
       'albums.album_date',
       'albums.album_type',
       'albums.description as description',
-      'photos.url_photo_small as index_photo_url',
+      'photos.url_photo_sized as index_photo_url',
       'albums.is_public',
       'albums.name',
       'users.name as owner_name',
       'albums.likes'
     )
-    .where('albums.id', id)
+    .where('user_id', req.token.userId)
+    .andWhere('albums.id', id)
     .innerJoin('users', 'albums.owner_id', 'users.id')
     .innerJoin('photos', 'albums.index_photo', 'photos.id')
     .first()
@@ -124,7 +125,7 @@ router.get('/photos/:albumId', authorize, (req, res, next) => {
     knex('photos_albums')
       .select('*')
       .where('user_id', req.token.userId)
-      .where('album_id', id)
+      .andWhere('album_id', id)
       .innerJoin('photos', 'photos_albums.photo_id', 'photos.id')
       .then((rows) => {
         res.send(camelizeKeys(rows))
@@ -137,7 +138,6 @@ router.get('/photos/:albumId', authorize, (req, res, next) => {
 
 router.patch('/patch/likes', (req, res, next) => {
   const {id, likes} = req.body
-  console.log(likes);
     knex('albums')
       .where('id', id)
       .update({likes}, '*')

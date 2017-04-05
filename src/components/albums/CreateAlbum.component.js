@@ -11,7 +11,6 @@ export default class CreateAlbum extends Component {
     this.state = {
       indexPhoto: '',
       albumPhotos: [],
-      userId: 1,
       albumName: '',
       albumDate: '',
       albumDescription: '',
@@ -58,7 +57,6 @@ export default class CreateAlbum extends Component {
       isPublic: this.state.isPublic,
       description: this.state.albumDescription,
       indexPhoto: this.state.indexPhoto,
-      ownerId: this.state.userId,
       albumPhotos: this.state.albumPhotos
     }
     axios.post('/api/albums/new', request)
@@ -158,7 +156,7 @@ export default class CreateAlbum extends Component {
                     name="albumType"
                     value="moments"
                     onChange={this.handleState}
-                  /> Life events
+                  /> Life event
                 </label>
               </div>
             </div>

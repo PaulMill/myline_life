@@ -28,7 +28,8 @@
     "react-toastr": "^2.8.2",
     "sha256": "^0.2.0",
     "sharp": "^0.17.2",
-    "superagent": "^3.5.0"
+    "superagent": "^3.5.0",
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "dotenv": "^4.0.0",

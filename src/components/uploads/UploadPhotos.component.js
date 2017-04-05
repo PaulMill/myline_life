@@ -10,12 +10,14 @@ export default class UploadPhotos extends Component {
     this.state = {
       dateOfPhoto: '',
       camera: '',
-      files: []
+      files: [],
+      isPublic: false
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.onDrop = this.onDrop.bind(this)
     this.onOpenClick = this.onOpenClick.bind(this)
     this.deletePhotoFromUpload = this.deletePhotoFromUpload.bind(this)
+    this.handlePrivatePublic = this.handlePrivatePublic.bind(this)
   }
 
   handleSubmit(event){
@@ -42,13 +44,17 @@ export default class UploadPhotos extends Component {
       })
       .catch(err =>(console.error(err)))
     }
+  handlePrivatePublic(el, index, isPublic){
+    let newArray = this.state.files
+    newArray.splice(index, 1)
 
-  deletePhotoFromUpload(el, index){
+    this.setState({files: newArray})
+  }
+  deletePhotoFromUpload(index){
     let newArray = this.state.files
     newArray.splice(index, 1)
     this.setState({files: newArray})
   }
-
   onDrop(files) {
       this.setState({files: files});
     }
@@ -90,18 +96,39 @@ export default class UploadPhotos extends Component {
                   return (
                     <div className="col-md-3 col-sm-6" key={indx}>
                       <div className="card" style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.6rem", color: "red", margin: '2% 0', backgroundColor: "#54585B"}}>
-                        <img className="card-img-top" src={file.preview} alt="imageUploads" style={{maxHeight: "160px"}} />
-                        <div className="card-block">
+                        <img className="card-img-top" src={file.preview} alt="imageUploads" style={{maxHeight: "140px"}} />
+                        {/* <div className="card-block">
                           <p className="card-title">Date: <strong></strong></p>
-                          {/* <p className="card-text">{this.state.description}</p>
-                          <p className="card-text">Camera: {this.state.camera}</p> */}
-                        </div>
+                          <p className="card-text">{this.state.description}</p>
+                          <p className="card-text">Camera: {this.state.camera}</p>
+                        </div> */}
                         <div className="card-footer" style={{backgroundColor: "#323638", textAlign: "center"}}>
+                          <div className="btn-group" data-toggle="buttons">
+                            <label className="btn btn-primary btn-sm active">
+                              <input
+                                type="radio"
+                                name="isPublic"
+                                id="option1"
+                                autocomplete="off"
+                                value="false"
+                                onChange={() => (this.handlePrivatePublic(file, indx, false))}
+                                checked /> Private
+                            </label>
+                            <label className="btn btn-primary btn-sm">
+                              <input
+                                type="radio"
+                                name="options"
+                                autocomplete="off"
+                                value="true"
+                                onChange={() => (this.handlePrivatePublic(file, indx, true))}
+                              /> Public
+                            </label>
+                          </div>
                           <button
                             type="button"
                             className="btn btn-outline-primary btn-sm"
                             style={{margin: "0 3%"}}
-                            onClick={() => (this.deletePhotoFromUpload(file, indx))}
+                            onClick={() => (this.deletePhotoFromUpload(indx))}
                           >Delete</button>
                         </div>
                       </div>

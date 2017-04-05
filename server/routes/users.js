@@ -14,7 +14,6 @@ const router = express.Router()
 
 // <============== route to send lik when password forgot to user  ==================>
 router.post('/forgot', (req, res, next) => {
-  console.log(req.body.email)
   const email = req.body.email
   const forgot_url = '';
   if (!email || !email.trim()) {
@@ -184,7 +183,6 @@ router.post('/newuser', (req, res, next) => {
     .then((users) => {
       const user = camelizeKeys(users[0])
       delete user.hashedPassword
-      console.log(user);
       res.send(user)
     })
     .catch((err) => {
@@ -270,7 +268,6 @@ router.patch('/updates', (req, res, next) => {
             .update({ hashed_password }, '*')
         })
       .then((users) => {
-        console.log(users[0]);
         const response = 'password'
         res.send(response)
       })

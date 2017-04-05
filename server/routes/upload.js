@@ -9,6 +9,7 @@ const sharp = require('sharp')
 const knex = require('../../knex')
 const { decamelizeKeys, camelizeKeys } = require('humps')
 const jwt = require('jsonwebtoken')
+const uuidV4 = require('uuid/v4')
 
 const uploadMulter = multer()
 
@@ -35,16 +36,10 @@ const authorize = function(req, res, next) {
 
 router.post('/photos', authorize, uploadMulter.array('photos[]'), (req, res, next) => {
 
-
-  let urlPhotoSmall = ''
-  let urlPhotoSized = ''
-  let urlPhotoFull = ''
-  let doneUploads = []
-
-  function uploaderS3(fileB, ispublic, indexFile, callback){
+  function uploaderS3(fileB, ispublic, indexFile, uuid, callback){
       s3.upload({
        Bucket: myBucket,
-       Key: `${indexFile}/${indexFile}-${Date.now().toString()}`,
+       Key: `${indexFile}/${indexFile}_${uuid}`,
        Body: fileB,
        ACL: ispublic
      }, (err, data) => {
@@ -52,24 +47,22 @@ router.post('/photos', authorize, uploadMulter.array('photos[]'), (req, res, nex
          console.log(err);
        }
        if (indexFile === 'lg') {
-         urlPhotoFull = data.Location
-         if (callback) callback()
+         const urlPhotoFull = data.Location
+         if (callback) callback(urlPhotoFull)
        }
        else if (indexFile === 'md') {
-         urlPhotoSized = data.Location
-         if (callback) callback()
+         const urlPhotoSized = data.Location
+         if (callback) callback(urlPhotoSized);
        }
        else if (indexFile === 'sm') {
-         urlPhotoSmall = data.Location
-         if (callback) callback()
+         const urlPhotoSmall = data.Location
+         if (callback) callback(urlPhotoSmall)
        }
      })
    }
 
-    // for (const file of req.files) {
     const allPromises = req.files.map((file) => {
       return new Promise ((resolve, reject) => {
-
           const image = sharp(file.buffer)
               image
               .metadata()
@@ -84,13 +77,14 @@ router.post('/photos', authorize, uploadMulter.array('photos[]'), (req, res, nex
                 .toBuffer()
                 .then((data) => {
                   return new Promise ((resolve, reject) => {
-                    uploaderS3(data, 'public-read', 'lg', () => {
-                      resolve();
+                    const uuid = uuidV4()
+                    uploaderS3(data, 'public-read', 'lg', uuid, (pict) => {
+                      resolve({lg:pict});
                     })
                   })
                 })
               })
-              .then(function() { // resizing for medium size and saving to folder md
+              .then(function(allPictures) { // resizing for medium size and saving to folder md
                 return image
                 .withMetadata()
                 .resize(1328, 747)
@@ -101,13 +95,14 @@ router.post('/photos', authorize, uploadMulter.array('photos[]'), (req, res, nex
                 .toBuffer()
                 .then((data) => {
                   return new Promise ((resolve, reject) => {
-                    uploaderS3(data, 'public-read', 'md', () => {
-                      resolve();
+                    const uuid = uuidV4()
+                    uploaderS3(data, 'public-read', 'md', uuid, (pict) => {
+                      resolve(Object.assign(allPictures, {md:pict}));
                     })
                   })
                 })
               })
-              .then(function() { // resizing for small size and saving to folder sm
+              .then(function(allPictures) { // resizing for small size and saving to folder sm
                 return image
                 .resize(400, 225)
                 .withMetadata()
@@ -118,13 +113,14 @@ router.post('/photos', authorize, uploadMulter.array('photos[]'), (req, res, nex
                 .toBuffer()
                 .then((data) => {
                   return new Promise ((resolve, reject) => {
-                    uploaderS3(data, 'public-read', 'sm', () => {
-                      resolve();
+                    const uuid = uuidV4()
+                    uploaderS3(data, 'public-read', 'sm', uuid, (pict) => {
+                      resolve(Object.assign(allPictures, {sm:pict}));
                     })
                   })
                 })
               })
-              .then(() => {
+              .then((allPictures) => {
                 const ExifImage = require('exif').ExifImage
                 try {
                   new ExifImage({ image : file.buffer }, function (error, exifData) {
@@ -137,7 +133,7 @@ router.post('/photos', authorize, uploadMulter.array('photos[]'), (req, res, nex
                       const photoDate = Date.parse(dateOfPhoto)
                       const name = file.originalname
                       const userId = req.token.userId
-                      resolve({urlPhotoSmall, urlPhotoSized, urlPhotoFull, photoDate, cameraModel, name, userId});
+                      resolve({urlPhotoSmall: allPictures.sm, urlPhotoSized: allPictures.md, urlPhotoFull: allPictures.lg, photoDate, cameraModel, name, userId})
                     }
                   })
                 }
@@ -150,14 +146,11 @@ router.post('/photos', authorize, uploadMulter.array('photos[]'), (req, res, nex
               })
       })
     })
-    console.log(allPromises);
     Promise.all(allPromises)
       .then((objects) => {
-        console.log('ALL promises done', objects);
         knex('photos')
           .insert(decamelizeKeys(objects), '*')
           .then((data) => {
-            console.log('did work?', data);
             res.send('all good')
           })
           .catch((err) => {

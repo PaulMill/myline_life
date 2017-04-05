@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { Link, browserHistory } from 'react-router'
 import axios from 'axios'
+import logo from '../../logo.svg'
 
 export default class NavBar extends Component {
   constructor(props){
@@ -35,7 +36,7 @@ export default class NavBar extends Component {
             <span className="navbar-toggler-icon"></span>
           </button>
           <a className="navbar-brand" href="#">
-            <img src="/images/logo.jpg" width="30" height="30" className="d-inline-block align-top" alt="logo" />
+            <img src={logo} width="30" height="30" className="d-inline-block align-top" alt="logo" />
           </a>
 
           {this.props.login
@@ -53,6 +54,9 @@ export default class NavBar extends Component {
                 <li className="nav-item">
                   <Link to={`/${this.props.url}/uploads`} className="nav-link" style={{color: "#C4CFCF", fontWeight: "600"}}>Upload Photos</Link>
                 </li>
+              </ul>
+              <ul className="navbar-nav mr-auto">
+                <li style={{color: "#C4CFCF", fontWeight: "600"}} className="nav-item" >Welcome  <span style={{color: "#B84818"}}> {this.props.name}</span></li>
               </ul>
               <button
                 style={{margin: "0 1%"}}
