@@ -39,7 +39,7 @@ class App extends Component {
   render() {
     const { isLoggedIn, userId, userName, url } = this.state
     const styleTextH1 = {textAlign: 'center', color: '#919999', fontSize: '4rem', fontWeight: 'bold', fontFamily: 'Oswald'}
-    const styleTextH0 = {textAlign: 'center', color: '#b84818', fontSize: '6rem', fontWeight: 'bold', fontFamily: 'Oswald', marginTop: "6%"}
+    const styleTextH0 = {textAlign: 'center', color: '#b84818', fontSize: '5.7rem', fontWeight: 'bold', fontFamily: 'Oswald', marginTop: "6%"}
     return (
       <div>
         <NavBar login={isLoggedIn} url={url} name={userName} id={userId}/>

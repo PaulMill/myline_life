@@ -33,18 +33,38 @@ a.disabled {
   border-color: rgba(70,70,70,0.4);
 }
 .buttonsWelcomePage {
-    font-family: "museo-sans", "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif;
-    color: rgb(255, 255, 255);
-    background-color: rgba(35,160,186, .5);
-    border-color: rgba(255, 255, 255, 1);
-    transition: all 0.3s ease 0s;
-    animation: fadein 2s;
-    padding: 10px 16px;
-    font-size: 18px;
-    line-height: 1.3333333;
-    border-radius: 10px;
-    border: 1px solid #096783;
-    margin: 2% 1.5%;
+  font-family: "museo-sans", "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif;
+  color: rgb(255, 255, 255);
+  background-color: rgba(35,160,186, .5);
+  border-color: rgba(255, 255, 255, 1);
+  transition: all 0.3s ease 0s;
+  animation: fadein 2s;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+  border-radius: 10px;
+  border: 1px solid #096783;
+  margin: 2% 1.5%;
+}
+
+@keyframes spinner {
+  to {transform: rotate(360deg);}
+}
+
+.spinner:before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border-top: 4px solid #07d;
+  border-right: 4px solid transparent;
+  animation: spinner .8s linear infinite;
 }
 
 /*for signUp from*/

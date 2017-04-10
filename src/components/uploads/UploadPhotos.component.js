@@ -11,7 +11,8 @@ export default class UploadPhotos extends Component {
       dateOfPhoto: '',
       camera: '',
       files: [],
-      isPublic: false
+      isPublic: false,
+      loader: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.onDrop = this.onDrop.bind(this)
@@ -22,7 +23,9 @@ export default class UploadPhotos extends Component {
 
   handleSubmit(event){
     event.preventDefault()
+
       const p = new Promise((resolve, reject) => {
+        this.setState({loader: 'spinner disabled'})
         const formData = new FormData()
         for (const file of this.state.files) {
           if (!file.type.match('image.*')) {
@@ -47,7 +50,6 @@ export default class UploadPhotos extends Component {
   handlePrivatePublic(el, index, isPublic){
     let newArray = this.state.files
     newArray.splice(index, 1)
-
     this.setState({files: newArray})
   }
   deletePhotoFromUpload(index){
@@ -91,19 +93,14 @@ export default class UploadPhotos extends Component {
         </div>
           {this.state.files.length
             ? <div>
-                <button type="button" className="btn btn-outline-success btn-lg btn-block" style={{margin: "5% 0"}} onClick={this.handleSubmit}>Upload {this.state.files.length} pictures</button>
+                <button type="button" className={`btn btn-outline-success btn-lg btn-block ${this.state.loader}`} style={{margin: "5% 0"}} onClick={this.handleSubmit}>Upload {this.state.files.length} pictures</button>
                 <div className="row">{this.state.files.map((file, indx) => {
                   return (
                     <div className="col-md-3 col-sm-6" key={indx}>
                       <div className="card" style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.6rem", color: "red", margin: '2% 0', backgroundColor: "#54585B"}}>
                         <img className="card-img-top" src={file.preview} alt="imageUploads" style={{maxHeight: "140px"}} />
-                        {/* <div className="card-block">
-                          <p className="card-title">Date: <strong></strong></p>
-                          <p className="card-text">{this.state.description}</p>
-                          <p className="card-text">Camera: {this.state.camera}</p>
-                        </div> */}
                         <div className="card-footer" style={{backgroundColor: "#323638", textAlign: "center"}}>
-                          <div className="btn-group" data-toggle="buttons">
+                          {/* <div className="btn-group" data-toggle="buttons">
                             <label className="btn btn-primary btn-sm active">
                               <input
                                 type="radio"
@@ -123,7 +120,7 @@ export default class UploadPhotos extends Component {
                                 onChange={() => (this.handlePrivatePublic(file, indx, true))}
                               /> Public
                             </label>
-                          </div>
+                          </div> */}
                           <button
                             type="button"
                             className="btn btn-outline-primary btn-sm"
