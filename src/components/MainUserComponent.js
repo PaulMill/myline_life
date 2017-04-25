@@ -40,7 +40,6 @@ export default class MainUserComponent extends Component {
           : null
         }
       </div>
-
     )
   }
 }

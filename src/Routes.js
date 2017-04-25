@@ -36,10 +36,10 @@ export default class Routes extends Component {
             <Route path='/:userurl/account' component={UserInterface} />
             <Route path='/:userurl/albums/new' component={CreateAlbum} />
             <Route path='/:userurl/albums' component={AllAlbums} />
+            <Route path='/:userurl/album/modify/:id' component={ModifyAlbum} />
+            <Route path='/:userurl/album/show/:id' component={ShowPhotosFromAlbum} />
             <Route path='/:userurl/photos/:id' component={ShowPhotos} />
             <Route path='/:userurl/album/:id' component={ShowAlbum} />
-            <Route path='/:userurl/album/show/:id' component={ShowPhotosFromAlbum} />
-            <Route path='/:userurl/album/modify/:id' component={ModifyAlbum} />
             <Route path='/:userurl/public' component={MainPagePublic}>
               <Route path='/:userurl/public/photos' component={AllPhotosPublic} />
               <Route path='/:userurl/public/albums' component={AllAlbumsPublic} />

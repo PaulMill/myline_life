@@ -28,7 +28,7 @@ export default class ModifyAlbum extends Component {
     this.deletePhotoFromAlbum = this.deletePhotoFromAlbum.bind(this)
     this.handleIndexPhoto = this.handleIndexPhoto.bind(this)
     this.handleDatePhoto = this.handleDatePhoto.bind(this)
-    this.handleCreateAlbum = this.handleCreateAlbum.bind(this)
+    this.handleUpdateAlbum = this.handleUpdateAlbum.bind(this)
     this.toggleModal = this.toggleModal.bind(this)
   }
 
@@ -79,9 +79,9 @@ export default class ModifyAlbum extends Component {
   }
   handleDatePhoto(el){
     let newDate = new Date(parseInt(el))
-    return moment(newDate, "YYYY-MM-DD HH:mm").format('LLLL')
+    return moment(newDate, "YYYY-MM-DD HH:mm").format('LLL')
   }
-  handleCreateAlbum(event){
+  handleUpdateAlbum(event){
     event.preventDefault()
     const date = new Date(this.state.albumDate).getTime()
     const request = {
@@ -222,7 +222,7 @@ export default class ModifyAlbum extends Component {
               ? <button
                   type="button"
                   className="btn btn-success btn-lg btn-block"
-                  onClick={this.handleCreateAlbum}
+                  onClick={this.handleUpdateAlbum}
                 >UPDATE ALBUM</button>
               : <div style={{fontFamily: '"Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace', fontSize: "0.8rem", color: "red", margin: '2% 0'}}><strong>You have to fill all the fields, then select photos for the album and choose a cover photo</strong></div>
             }

@@ -14,7 +14,7 @@
   * Create albums, life events and share them.
   * Enjoy to have all your photos in one place organized by date when picture was took.
 
-## Features improvements
+## Feature improvements
   * **V1.0.0** - Convert to React Native App, Improve UX/UI design
   * **V2.0.0** - 1.Modify photos and albums with filters, frames, etc., 2. Improve security on app and between S3 and application, 3.Publish and create payable subscription.
 
@@ -31,7 +31,7 @@
   * [AWS S3](https://aws.amazon.com/s3/?nc2=h_m1) - Simple, durable, massively scalable object storage
   * [Knex.JS](http://knexjs.org/) - A SQL Query Builder for Javascript
 
-#### Database**
+#### Database
 
   * [PostgreSQL](https://www.postgresql.org/) - The world's most advanced open source database
 
