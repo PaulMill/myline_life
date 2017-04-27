@@ -137,7 +137,8 @@ export default class ShowAlbum extends Component {
                 </a>
               </li>
               <li>
-                <a href={`/${this.props.url}/album/modify/${this.props.params.id}`}>
+                <a href="javascript:void(0)"
+                  onClick={() => (browserHistory.push(`/${this.props.url}/album/modify/${this.props.params.id}`))}>
                   <span><i className="fa fa-cogs"></i></span>
                   <span>MODIFY</span>
                 </a>
