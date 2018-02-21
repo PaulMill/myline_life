@@ -45,7 +45,9 @@ router.post('/forgot', (req, res, next) => {
     })
     .then((reg_url) => {
       forgot_url = `https://myline.life/login/forgot/${reg_url}`
-      return knex('users').insert({
+      return knex('users')
+        .where('email', email)
+        .update({
         reg_url,
         is_registred: false
       }, '*')

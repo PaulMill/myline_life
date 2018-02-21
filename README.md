@@ -1,4 +1,4 @@
-# [{ TheBook.Photos }](https://thebook.photos/)
+# [{ TheBook.Photos }](http://thebook-photos.herokuapp.com/)
   Organize, Share, & Manage All of Your Photos in One Place
 
 ## About project
@@ -41,7 +41,7 @@
 
 ## Authors
 
-  * **Paul Miller** - [personal page](https://paulmiller.info/)
+  * **Paul Miller**
 
 
 ## License
